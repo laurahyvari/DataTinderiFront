@@ -1,27 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, Text, View } from 'react-native';
 
 export default function ListScreen(props) {
 
-  const navigateToHome = () => {
-    props.navigation.navigate('Home')
+  const navigateToPlayer = () => {
+    props.navigation.navigate('Player')
   }
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text>List page</Text>
-      <Button onPress={navigateToHome} title={'Home'}/>
+      <Button onPress={navigateToPlayer} title={'Player'}/>
       <StatusBar style="auto" />
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

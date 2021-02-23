@@ -1,7 +1,6 @@
 import 'react-native-gesture-handler'
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Entypo from '@expo/vector-icons/Entypo'
@@ -61,35 +60,24 @@ export default function App() {
           inactiveTintColor: 'gray',
           showLabel: false
         }}
+        sceneContainerStyle={styles.container}
       >
-        <Tab.Screen 
-          name="Home"
-          component={HomeScreen}
-        />
-        <Tab.Screen 
-          name="List"
-          component={ListScreen}
-          options={{ title: 'List' }}
-        />
-        <Tab.Screen 
-          name="Player"
-          component={PlayerScreen}
-          options={{ title: 'Player' }}
-        />
-        <Tab.Screen 
-          name="Settings"
-          component={SettingsScreen}
-          options={{ title: 'Settings' }}
-        />
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="List" component={ListScreen} />
+        <Tab.Screen name="Player" component={PlayerScreen} />
+        <Tab.Screen name="Settings" component={SettingsScreen} />
       </Tab.Navigator>
-    {/*}
-      <View style={styles.container}>
-        <Text>DataTinderi app moikku</Text>
-        <StatusBar style="auto" />
-      </View>
-    {*/}
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 
