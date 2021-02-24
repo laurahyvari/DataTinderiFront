@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler'
 import React from 'react';
+
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -13,9 +14,14 @@ import SettingsScreen from './screens/SettingsScreen'
 
 const Tab = createBottomTabNavigator();
 
+import { Text, View } from 'react-native';
+import ApiDemo from './components/ApiDemo';
+
+
 export default function App() {
 
   return (
+
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -68,6 +74,13 @@ export default function App() {
         <Tab.Screen name="Settings" component={SettingsScreen} />
       </Tab.Navigator>
     </NavigationContainer>
+
+    <View style={styles.container}>
+      <Text>DataTinderi app moikku</Text>
+      <ApiDemo />
+      <StatusBar style="auto" />
+    </View>
+
   );
 }
 
