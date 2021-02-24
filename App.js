@@ -1,4 +1,4 @@
-import 'react-native-gesture-handler'
+import  'react-native-gesture-handler'
 import React from 'react';
 
 import { StyleSheet } from 'react-native';
@@ -21,7 +21,7 @@ import ApiDemo from './components/ApiDemo';
 export default function App() {
 
   return (
-
+<View>
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -75,12 +75,10 @@ export default function App() {
       </Tab.Navigator>
     </NavigationContainer>
 
-    <View style={styles.container}>
-      <Text>DataTinderi app moikku</Text>
-      <ApiDemo />
-      <StatusBar style="auto" />
+      
+      
     </View>
-
+   
   );
 }
 
