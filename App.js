@@ -21,7 +21,7 @@ import ApiDemo from './components/ApiDemo';
 export default function App() {
 
   return (
-<View>
+
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -77,7 +77,7 @@ export default function App() {
 
       
       
-    </View>
+    
    
   );
 }
