@@ -1,7 +1,16 @@
+import { StatusBar } from 'expo-status-bar';
+
+//import { Button, Text, View } from 'react-native';
 import React, {useState, useEffect, Component } from 'react'
 import Swiper from 'react-native-deck-swiper'
 import { Button, StyleSheet, Text, View } from 'react-native'
-import http from './httpCardData.js'
+//import getSuggestions from './utils/Api'
+import Api from '../utils/Api'
+import Swipe from '../components/Swipe'
+//export default function HomeScreen(props) extends Component { 
+
+
+
 
 
 // demo purposes only
@@ -10,25 +19,29 @@ import http from './httpCardData.js'
     yield i
   }
 } */
+const navigateToList = () => {
+  props.navigation.navigate('List')
+}
 
-
-export default class Exemple extends Component { //Tämä näyttäisi olevan tuplana, tässä ja HomeScreenillä.. 
+export default class HomeScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      cards: [...range(1, 50)],
+      cards: [...range(1, 50)], // tän rangen tilalle pitäisi ilmeisesti muuttaa toinen muuttuja
+      //[...range(1,50)]
       swipedAllCards: false,
       swipeDirection: '',
       cardIndex: 0
     }
   }
 
+  
  
 
-  renderCard = (card, index) => {
+  renderCard = (refreshSuggestions, index) => {
     return (
       <View style={styles.card}>
-        <Text style={styles.text}>{card} - {index}</Text>
+        <Text style={styles.text}>{refreshSuggestions} - {index}</Text>
       </View>
     )
   };
@@ -173,3 +186,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   }
 })
+
+

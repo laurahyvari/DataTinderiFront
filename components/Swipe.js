@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { PanResponder, Text, View, Dimensions, Animated } from 'react-native'
 import PropTypes from 'prop-types'
-//import isEqual from 'lodash/isEqual'
+//import isEqual from 'lodash/isEqual' ONKO TARPEELLINEN?
 
 
 const { height, width } = Dimensions.get('window')
