@@ -1,24 +1,34 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect, Component } from 'react'
 import Swiper from 'react-native-deck-swiper'
-import { Button, StyleSheet, Text, View } from 'react-native'
-//import getSuggestions from './utils/Api'
+import { Button, Image, StyleSheet, Text, View } from 'react-native'
+import Api from '../utils/Api'
 
-const renderCard = (refreshSuggestions, index) => {
+const renderCard = (cardData, cardIndex) => {
   return (
     <View style={styles.card}>
-      <Text style={styles.text}>{refreshSuggestions} - {index}</Text>
+      <Text style={styles.cardTitle}>{cardData.title}</Text>
     </View>
   )
 }
 
 export default function HomeScreen(props) {
 
-  const [cards, setCards] = useState(['eka', 'toka', 'kolmas', 'neljäs', 'viides'])
+  const [cards, setCards] = useState([])
   const [swipedAllCards, setSwipedAllCards] = useState(false)
   const [swipeDirection, setSwipeDirection] = useState('')
   const [cardIndex, setCardIndex] = useState(0)
   const [swipeComponent, setSwipeComponent] = useState(null)
+
+  useEffect(() => {
+    refreshSuggestions()
+  }, [])
+
+  const refreshSuggestions = async () => {
+    const newSuggestions = await Api.getSuggestions(10)
+    console.log(newSuggestions);
+    setCards(newSuggestions)
+  }
 
   const onSwiped = (type) => {
     console.log(`on swiped ${type}`)
@@ -40,6 +50,7 @@ export default function HomeScreen(props) {
 
   return (
     <View style={styles.container}>
+      { cards.length > 0 ? (
       <Swiper
         ref={swiper => { setSwipeComponent(swiper) }}
         onSwiped={() => onSwiped('general')}
@@ -62,6 +73,9 @@ export default function HomeScreen(props) {
       >
         <Button onPress={onSwipeBack} title='Swipe Back' />
       </Swiper>
+      ) : (
+        <></>
+      )}
     </View>
   )
 }
@@ -102,6 +116,13 @@ const styles = StyleSheet.create({
     borderColor: '#E8E8E8',
     justifyContent: 'center',
     backgroundColor: 'white'
+  },
+  cardTitle: {
+    fontSize: 28,
+    fontWeight: 'bold'
+  },
+  cardText: {
+
   },
   text: {
     textAlign: 'center',
