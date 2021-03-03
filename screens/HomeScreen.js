@@ -4,137 +4,89 @@ import Swiper from 'react-native-deck-swiper'
 import { Button, StyleSheet, Text, View } from 'react-native'
 //import getSuggestions from './utils/Api'
 
-export default class HomeScreen extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      cards: ['eka', 'toka', 'kolmas', 'neljäs', 'viides'],
-      swipedAllCards: false,
-      swipeDirection: '',
-      cardIndex: 0
-    }
-  }
+const renderCard = (refreshSuggestions, index) => {
+  return (
+    <View style={styles.card}>
+      <Text style={styles.text}>{refreshSuggestions} - {index}</Text>
+    </View>
+  )
+}
 
-  renderCard = (refreshSuggestions, index) => {
-    return (
-      <View style={styles.card}>
-        <Text style={styles.text}>{refreshSuggestions} - {index}</Text>
-      </View>
-    )
-  };
+export default function HomeScreen(props) {
 
-  onSwiped = (type) => {
+  const [cards, setCards] = useState(['eka', 'toka', 'kolmas', 'neljäs', 'viides'])
+  const [swipedAllCards, setSwipedAllCards] = useState(false)
+  const [swipeDirection, setSwipeDirection] = useState('')
+  const [cardIndex, setCardIndex] = useState(0)
+  const [swipeComponent, setSwipeComponent] = useState(null)
+
+  const onSwiped = (type) => {
     console.log(`on swiped ${type}`)
   }
 
-  onSwipedAllCards = () => {
-    this.setState({
-      swipedAllCards: true
-    })
-  };
+  const onSwipedAllCards = () => {
+    setSwipedAllCards(true)
+  }
 
-  swipeLeft = () => {
-    this.swiper.swipeLeft()
-  };
+  const onSwipeBack = () => {
+    console.log('Back button pressed!')
+    swipeComponent.swipeBack()
+  }
 
-  render () {
-    return (
-      <View style={styles.container}>
-        <Swiper
-          ref={swiper => {
-            this.swiper = swiper
-          }}
-          onSwiped={() => this.onSwiped('general')}
-          onSwipedLeft={() => this.onSwiped('left')}
-          onSwipedRight={() => this.onSwiped('right')}
-          onSwipedTop={() => this.onSwiped('top')}
-          onSwipedBottom={() => this.onSwiped('bottom')}
-          onTapCard={this.swipeLeft}
-          cards={this.state.cards}
-          cardIndex={this.state.cardIndex}
-          cardVerticalMargin={80}
-          renderCard={this.renderCard}
-          onSwipedAll={this.onSwipedAllCards}
-          stackSize={3}
-          stackSeparation={15}
-          overlayLabels={{
-            bottom: {
-              title: 'BLEAH',
-              style: {
-                label: {
-                  backgroundColor: 'black',
-                  borderColor: 'black',
-                  color: 'white',
-                  borderWidth: 1
-                },
-                wrapper: {
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }
-              }
-            },
-            left: {
-              title: 'NOPE',
-              style: {
-                label: {
-                  backgroundColor: 'black',
-                  borderColor: 'black',
-                  color: 'white',
-                  borderWidth: 1
-                },
-                wrapper: {
-                  flexDirection: 'column',
-                  alignItems: 'flex-end',
-                  justifyContent: 'flex-start',
-                  marginTop: 30,
-                  marginLeft: -30
-                }
-              }
-            },
-            right: {
-              title: 'LIKE',
-              style: {
-                label: {
-                  backgroundColor: 'black',
-                  borderColor: 'black',
-                  color: 'white',
-                  borderWidth: 1
-                },
-                wrapper: {
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  justifyContent: 'flex-start',
-                  marginTop: 30,
-                  marginLeft: 30
-                }
-              }
-            },
-            top: {
-              title: 'SUPER LIKE',
-              style: {
-                label: {
-                  backgroundColor: 'black',
-                  borderColor: 'black',
-                  color: 'white',
-                  borderWidth: 1
-                },
-                wrapper: {
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }
-              }
-            }
-          }}
-          animateOverlayLabelsOpacity
-          animateCardOpacity
-          swipeBackCard
-        >
-          <Button onPress={() => this.swiper.swipeBack()} title='Swipe Back' />
-        </Swiper>
-      </View>
-    )
+  const onTapCard = () => {
+    console.log('on card tapped')
+    swipeComponent.swipeLeft()
+  }
+
+  return (
+    <View style={styles.container}>
+      <Swiper
+        ref={swiper => { setSwipeComponent(swiper) }}
+        onSwiped={() => onSwiped('general')}
+        onSwipedLeft={() => onSwiped('left')}
+        onSwipedRight={() => onSwiped('right')}
+        onSwipedTop={() => onSwiped('top')}
+        onSwipedBottom={() => onSwiped('bottom')}
+        onTapCard={onTapCard}
+        cards={cards}
+        cardIndex={cardIndex}
+        cardVerticalMargin={80}
+        renderCard={renderCard}
+        onSwipedAll={onSwipedAllCards}
+        stackSize={3}
+        stackSeparation={15}
+        overlayLabels={overlayLabels}
+        animateOverlayLabelsOpacity
+        animateCardOpacity
+        swipeBackCard
+      >
+        <Button onPress={onSwipeBack} title='Swipe Back' />
+      </Swiper>
+    </View>
+  )
+}
+
+const labelStyle = { backgroundColor: 'black', borderColor: 'black', color: 'white', borderWidth: 1 }
+const centerWrapperStyle = { flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }
+const rightWrapperStyle = { flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-start', marginTop: 30, marginLeft: 30 }
+const leftWrapperStyle = { flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'flex-start', marginTop: 30, marginLeft: -30 }
+
+const overlayLabels = {
+  bottom: {
+    title: 'BLEAH',
+    style: { label: labelStyle, wrapper: centerWrapperStyle }
+  },
+  left: {
+    title: 'NOPE',
+    style: { label: labelStyle, wrapper: leftWrapperStyle }
+  },
+  right: {
+    title: 'LIKE',
+    style: { label: labelStyle, wrapper: rightWrapperStyle }
+  },
+  top: {
+    title: 'SUPER LIKE',
+    style: { label: labelStyle, wrapper: centerWrapperStyle }
   }
 }
 
