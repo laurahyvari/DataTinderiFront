@@ -8,6 +8,8 @@ const renderCard = (cardData, cardIndex) => {
   return (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>{cardData.title}</Text>
+      <Text style={styles.cardDescription}>{cardData.description.fi}</Text>
+      {/* <Image style={styles.cardImage}>{cardData.image_id}</Image> */}
     </View>
   )
 }
@@ -122,6 +124,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   cardText: {
+
+  },
+  cardImage: {
+    minWidth: '50%',
+    minHeight: '50%',
+    flex: 0.75,
 
   },
   text: {
