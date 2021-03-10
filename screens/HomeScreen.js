@@ -1,18 +1,26 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect, Component } from "react";
 import Swiper from "react-native-deck-swiper";
-import { Button, Image, StyleSheet, Text, View } from "react-native";
+import { Button, Dimensions, Image, StyleSheet, Text, View } from "react-native";
 import Api from "../utils/Api";
 
 const renderCard = (cardData, cardIndex) => {
+
+  // käytetään näitä arvoja jo ohjelman kuvaa haettaessa (alempana Image-komponentin source)
+  // pienemmän kuvan hakeminen on nopeampaa ja joka tapauksessa se olisi skaalattu mahtumaan kortille
+  const maxWidth = Math.round(Dimensions.get('window').width * 0.8)
+  const maxHeight = Math.round(Dimensions.get('window').height * 0.4)
+
 	return (
 		<View style={styles.card} key={cardData.id}>
-			<Text style={styles.cardTitle}>{cardData.title || 'Ohjelman nimi'}</Text>
-			<Text style={styles.cardDescription}>{cardData.description ? cardData.description.fi : ''}</Text>
+      <View style={styles.cardTextContainer}>
+        <Text style={styles.cardTitle}>{cardData.title || 'Ohjelman nimi'}</Text>
+			  <Text style={styles.cardDescription}>{cardData.description ? cardData.description.fi : ''}</Text>
+      </View>
 			{cardData.image_id && <Image
 				style={styles.cardImage}
 				source={{
-					uri: `https://images.cdn.yle.fi/image/upload/${cardData.image_id.id}`,
+					uri: `https://images.cdn.yle.fi/image/upload/w_${maxWidth},h_${maxHeight},c_limit/${cardData.image_id.id}`,
 				}}
 			/>}
 		</View>
@@ -146,16 +154,18 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		backgroundColor: "white",
 	},
+  cardTextContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
 	cardTitle: {
 		fontSize: 28,
 		fontWeight: "bold",
 	},
 	cardText: {},
 	cardImage: {
-		maxWidth: 120,
-		maxHeight: 120,
-		alignItems: "center",
-		flex: 1
+    resizeMode: 'contain',
+		flex: 2
 	},
 	text: {
 		textAlign: "center",
