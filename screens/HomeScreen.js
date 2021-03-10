@@ -7,14 +7,14 @@ import Api from "../utils/Api";
 const renderCard = (cardData, cardIndex) => {
 	return (
 		<View style={styles.card} key={cardData.id}>
-			<Text style={styles.cardTitle}>{cardData.title}</Text>
-			<Text style={styles.cardDescription}>{cardData.description.fi}</Text>
-			<Image
+			<Text style={styles.cardTitle}>{cardData.title || 'Ohjelman nimi'}</Text>
+			<Text style={styles.cardDescription}>{cardData.description ? cardData.description.fi : ''}</Text>
+			{cardData.image_id && <Image
 				style={styles.cardImage}
 				source={{
 					uri: `https://images.cdn.yle.fi/image/upload/${cardData.image_id.id}`,
 				}}
-			/>
+			/>}
 		</View>
 	);
 };
