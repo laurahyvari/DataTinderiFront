@@ -30,8 +30,12 @@ export default function HomeScreen(props) {
     setCards(newSuggestions)
   }
 
-  const onSwiped = (type) => {
+  const onSwiped = (index, type) => {
     console.log(`on swiped ${type}`)
+    if (type === 'right') {
+      console.log(`LIKE: ${index}`)
+      props.onSwipedRight(cards[index])
+    }
   }
 
   const onSwipedAllCards = () => {
@@ -53,11 +57,11 @@ export default function HomeScreen(props) {
       { cards.length > 0 ? (
       <Swiper
         ref={swiper => { setSwipeComponent(swiper) }}
-        onSwiped={() => onSwiped('general')}
-        onSwipedLeft={() => onSwiped('left')}
-        onSwipedRight={() => onSwiped('right')}
-        onSwipedTop={() => onSwiped('top')}
-        onSwipedBottom={() => onSwiped('bottom')}
+        onSwiped={(index) => onSwiped(index, 'general')}
+        onSwipedLeft={(index) => onSwiped(index, 'left')}
+        onSwipedRight={(index) => onSwiped(index, 'right')}
+        onSwipedTop={(index) => onSwiped(index, 'top')}
+        onSwipedBottom={(index) => onSwiped(index, 'bottom')}
         onTapCard={onTapCard}
         cards={cards}
         cardIndex={cardIndex}

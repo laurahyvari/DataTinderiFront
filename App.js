@@ -1,5 +1,5 @@
 import  'react-native-gesture-handler'
-import React from 'react';
+import React, { useState } from 'react';
 
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
@@ -19,6 +19,12 @@ import ApiDemo from './components/ApiDemo';
 
 
 export default function App() {
+
+  const [likedPrograms, setLikedPrograms] = useState([])
+  
+  const onSwipedRight = (suggestion) => {
+    setLikedPrograms([...likedPrograms, suggestion])
+  }
 
   return (
 
@@ -68,17 +74,12 @@ export default function App() {
         }}
         sceneContainerStyle={styles.container}
       >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="List" component={ListScreen} />
+        <Tab.Screen name="Home" children={() => <HomeScreen onSwipedRight={onSwipedRight} />} />
+        <Tab.Screen name="List" children={() => <ListScreen likedPrograms={likedPrograms}/>} />
         <Tab.Screen name="Player" component={PlayerScreen} />
         <Tab.Screen name="Settings" component={SettingsScreen} />
       </Tab.Navigator>
     </NavigationContainer>
-
-      
-      
-    
-   
   );
 }
 
