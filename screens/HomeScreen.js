@@ -152,9 +152,10 @@ const styles = StyleSheet.create({
 	},
 	cardText: {},
 	cardImage: {
-		minWidth: "50%",
-		minHeight: "50%",
-		flex: 0.75,
+		maxWidth: 120,
+		maxHeight: 120,
+		alignItems: "center",
+		flex: 1
 	},
 	text: {
 		textAlign: "center",
