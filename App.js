@@ -14,10 +14,6 @@ import SettingsScreen from './screens/SettingsScreen'
 
 const Tab = createBottomTabNavigator();
 
-import { Text, View } from 'react-native';
-import ApiDemo from './components/ApiDemo';
-
-
 export default function App() {
 
   const [likedPrograms, setLikedPrograms] = useState([])
