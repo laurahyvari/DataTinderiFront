@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginVertical: 4,
     padding: 8,
-    textAlign: 'start',
+    textAlign: 'left',
     borderColor: '#E8E8E8',
     borderWidth: 2,
     borderRadius: 4,
