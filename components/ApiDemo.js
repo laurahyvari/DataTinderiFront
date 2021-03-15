@@ -26,7 +26,7 @@ export default function ApiDemo() {
     <View>
       {suggestions.length > 0 && 
         suggestions.map(program => (
-          <View key={program._id}>
+          <View key={program.id}>
             <Text>{program.title}</Text>
           </View>
         ))
