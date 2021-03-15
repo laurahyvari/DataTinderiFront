@@ -44,9 +44,16 @@ export default function HomeScreen(props) {
 		setCards(newSuggestions);
 	};
 
-	const onSwiped = (type) => {
-		console.log(`on swiped ${type}`);
-	};
+
+  const onSwiped = (index, type) => {
+    console.log(`on swiped ${type}`)
+    if (type === 'right') {
+      console.log(`LIKE: ${index}`)
+      props.onSwipedRight(cards[index])
+    }
+  }
+
+
 
 	const onSwipedAllCards = () => {
 		setSwipedAllCards(true);
@@ -62,38 +69,38 @@ export default function HomeScreen(props) {
 		swipeComponent.swipeLeft();
 	};
 
-	return (
-		<View style={styles.container}>
-			{cards.length > 0 ? (
-				<Swiper
-					ref={(swiper) => {
-						setSwipeComponent(swiper);
-					}}
-					onSwiped={() => onSwiped("general")}
-					onSwipedLeft={() => onSwiped("left")}
-					onSwipedRight={() => onSwiped("right")}
-					onSwipedTop={() => onSwiped("top")}
-					onSwipedBottom={() => onSwiped("bottom")}
-					onTapCard={onTapCard}
-					cards={cards}
-					cardIndex={cardIndex}
-					cardVerticalMargin={80}
-					renderCard={renderCard}
-					onSwipedAll={onSwipedAllCards}
-					stackSize={3}
-					stackSeparation={15}
-					overlayLabels={overlayLabels}
-					animateOverlayLabelsOpacity
-					animateCardOpacity
-					swipeBackCard
-				>
-					<Button onPress={onSwipeBack} title="Swipe Back" />
-				</Swiper>
-			) : (
-				<></>
-			)}
-		</View>
-	);
+
+  return (
+    <View style={styles.container}>
+      { cards.length > 0 ? (
+      <Swiper
+        ref={swiper => { setSwipeComponent(swiper) }}
+        onSwiped={(index) => onSwiped(index, 'general')}
+        onSwipedLeft={(index) => onSwiped(index, 'left')}
+        onSwipedRight={(index) => onSwiped(index, 'right')}
+        onSwipedTop={(index) => onSwiped(index, 'top')}
+        onSwipedBottom={(index) => onSwiped(index, 'bottom')}
+        onTapCard={onTapCard}
+        cards={cards}
+        cardIndex={cardIndex}
+        cardVerticalMargin={80}
+        renderCard={renderCard}
+        onSwipedAll={onSwipedAllCards}
+        stackSize={3}
+        stackSeparation={15}
+        overlayLabels={overlayLabels}
+        animateOverlayLabelsOpacity
+        animateCardOpacity
+        swipeBackCard
+      >
+        <Button onPress={onSwipeBack} title='Swipe Back' />
+      </Swiper>
+      ) : (
+        <></>
+      )}
+    </View>
+  )
+
 }
 
 const labelStyle = {
