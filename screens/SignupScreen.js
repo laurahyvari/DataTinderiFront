@@ -29,9 +29,7 @@ export default function SignupScreen({ navigation }) {
 
           db.ref("users").child(uid).child("details").set({
             firstname: firstname,
-            lastname: lastname,
-            mode: "light",
-            language: language,
+            lastname: lastname
           });
         })
         .then(() => navigation.navigate("Login"));
