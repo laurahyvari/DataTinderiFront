@@ -39,7 +39,7 @@ export default function HomeScreen(props) {
 	}, []);
 
 	const refreshSuggestions = async () => {
-		const token = firebase.auth().currentUser.getIdToken();
+		const token = await firebase.auth().currentUser.getIdToken();
 		const newSuggestions = await Api.getSuggestions(10, token);
 		console.log(newSuggestions);
 		setCards(newSuggestions);
@@ -51,7 +51,7 @@ export default function HomeScreen(props) {
     if (type === 'right') {
       console.log(`LIKE: ${index}`)
       props.onSwipedRight(cards[index])
-    }
+	  }
   }
 
 
