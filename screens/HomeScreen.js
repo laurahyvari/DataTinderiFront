@@ -3,7 +3,7 @@ import React, { useState, useEffect, Component } from "react";
 import Swiper from "react-native-deck-swiper";
 import { Button, Dimensions, Image, StyleSheet, Text, View } from "react-native";
 import Api from "../utils/Api";
-
+import firebase from "../config/Firebase";
 const renderCard = (cardData, cardIndex) => {
 
   // käytetään näitä arvoja jo ohjelman kuvaa haettaessa (alempana Image-komponentin source)
@@ -39,7 +39,8 @@ export default function HomeScreen(props) {
 	}, []);
 
 	const refreshSuggestions = async () => {
-		const newSuggestions = await Api.getSuggestions(10);
+		const token = firebase.auth().currentUser.getIdToken();
+		const newSuggestions = await Api.getSuggestions(10, token);
 		console.log(newSuggestions);
 		setCards(newSuggestions);
 	};
