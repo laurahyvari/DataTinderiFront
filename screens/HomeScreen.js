@@ -41,16 +41,23 @@ export default function HomeScreen(props) {
 	const refreshSuggestions = async () => {
 		const token = await firebase.auth().currentUser.getIdToken();
 		const newSuggestions = await Api.getSuggestions(10, token);
-		console.log(newSuggestions);
+		
 		setCards(newSuggestions);
 	};
 
 
-  const onSwiped = (index, type) => {
+  const onSwiped = async (index, type) => {
     console.log(`on swiped ${type}`)
     if (type === 'right') {
-      console.log(`LIKE: ${index}`)
-      props.onSwipedRight(cards[index])
+		console.log(`LIKE: ${index}`)
+
+		// Tämä tilamuuttujaan ja jonkinlainen refresh -metodi pitämään tokenia yllä.
+		const token = await firebase.auth().currentUser.getIdToken();
+		// Ei bueno, mut riittää demoon.
+		const like = await Api.addLike(cards[index].id, token);
+		props.onSwipedRight(cards[index])
+	
+
 	  }
   }
 
