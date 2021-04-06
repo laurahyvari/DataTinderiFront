@@ -25,7 +25,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}> MovieFan </Text>
+      <Text style={styles.header}> DataTinder </Text>
       
       <Input
         containerStyle={styles.inputBox}
