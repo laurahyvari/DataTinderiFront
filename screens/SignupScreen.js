@@ -3,7 +3,6 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Switch,
   Alert
 } from "react-native";
 import { useState } from "react";

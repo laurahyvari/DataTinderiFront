@@ -1,10 +1,7 @@
 import axios from 'axios'
 
-
-// Nopea setti, joka lähettää tykkäykset backendin kautta firebaseen
-
 const getSuggestions = async (count, token) => {
-  console.log(token);
+
   const response = await axios.get(`https://data-tinder-back.herokuapp.com/api/suggestions/${count}`, {
     headers: {
       Authorization: token
@@ -15,7 +12,6 @@ const getSuggestions = async (count, token) => {
 }
 
 const addLike = async (movieID, token) => {
-  console.log(movieID, token);
   const response = await axios.post("https://data-tinder-back.herokuapp.com/api/preferences/", {
     "program_id": movieID,
     "swipe": 1
@@ -29,4 +25,18 @@ const addLike = async (movieID, token) => {
   return response.data;
 }
 
-export default { getSuggestions, addLike }
+const getLikes = async (token) => {
+  const response = await axios.get("https://data-tinder-back.herokuapp.com/api/preferences", {
+    headers: {
+      Authorization: token
+    }
+  }
+  );
+
+
+    console.log(response);
+  
+  return response.data;
+}
+
+export default { getSuggestions, addLike, getLikes }

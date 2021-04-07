@@ -6,17 +6,17 @@ import Api from "../utils/Api";
 import firebase from "../config/Firebase";
 const renderCard = (cardData, cardIndex) => {
 
-  // käytetään näitä arvoja jo ohjelman kuvaa haettaessa (alempana Image-komponentin source)
-  // pienemmän kuvan hakeminen on nopeampaa ja joka tapauksessa se olisi skaalattu mahtumaan kortille
-  const maxWidth = Math.round(Dimensions.get('window').width * 0.8)
-  const maxHeight = Math.round(Dimensions.get('window').height * 0.4)
+	// käytetään näitä arvoja jo ohjelman kuvaa haettaessa (alempana Image-komponentin source)
+	// pienemmän kuvan hakeminen on nopeampaa ja joka tapauksessa se olisi skaalattu mahtumaan kortille
+	const maxWidth = Math.round(Dimensions.get('window').width * 0.8)
+	const maxHeight = Math.round(Dimensions.get('window').height * 0.4)
 
 	return (
 		<View style={styles.card} key={cardData.id}>
-      <View style={styles.cardTextContainer}>
-        <Text style={styles.cardTitle}>{cardData.title || 'Ohjelman nimi'}</Text>
-			  <Text style={styles.cardDescription}>{cardData.description ? cardData.description.fi : ''}</Text>
-      </View>
+			<View style={styles.cardTextContainer}>
+				<Text style={styles.cardTitle}>{cardData.title || 'Ohjelman nimi'}</Text>
+				<Text style={styles.cardDescription}>{cardData.description ? cardData.description.fi : ''}</Text>
+			</View>
 			{cardData.image_id && <Image
 				style={styles.cardImage}
 				source={{
@@ -41,25 +41,25 @@ export default function HomeScreen(props) {
 	const refreshSuggestions = async () => {
 		const token = await firebase.auth().currentUser.getIdToken();
 		const newSuggestions = await Api.getSuggestions(10, token);
-		
+		console.log(token);
 		setCards(newSuggestions);
 	};
 
 
-  const onSwiped = async (index, type) => {
-    console.log(`on swiped ${type}`)
-    if (type === 'right') {
-		console.log(`LIKE: ${index}`)
+	const onSwiped = async (index, type) => {
+		console.log(`on swiped ${type}`)
+		if (type === 'right') {
+			console.log(`LIKE: ${index}`)
 
-		// Tämä tilamuuttujaan ja jonkinlainen refresh -metodi pitämään tokenia yllä.
-		const token = await firebase.auth().currentUser.getIdToken();
-		// Ei bueno, mut riittää demoon.
-		const like = await Api.addLike(cards[index].id, token);
-		props.onSwipedRight(cards[index])
-	
+			// Tämä tilamuuttujaan ja jonkinlainen refresh -metodi pitämään tokenia yllä.
+			const token = await firebase.auth().currentUser.getIdToken();
+			// Ei bueno, mut riittää demoon.
+			const like = await Api.addLike(cards[index].id, token);
+			props.onSwipedRight(cards[index])
 
-	  }
-  }
+
+		}
+	}
 
 
 
@@ -78,36 +78,36 @@ export default function HomeScreen(props) {
 	};
 
 
-  return (
-    <View style={styles.container}>
-      { cards.length > 0 ? (
-      <Swiper
-        ref={swiper => { setSwipeComponent(swiper) }}
-        onSwiped={(index) => onSwiped(index, 'general')}
-        onSwipedLeft={(index) => onSwiped(index, 'left')}
-        onSwipedRight={(index) => onSwiped(index, 'right')}
-        onSwipedTop={(index) => onSwiped(index, 'top')}
-        onSwipedBottom={(index) => onSwiped(index, 'bottom')}
-        onTapCard={onTapCard}
-        cards={cards}
-        cardIndex={cardIndex}
-        cardVerticalMargin={80}
-        renderCard={renderCard}
-        onSwipedAll={onSwipedAllCards}
-        stackSize={3}
-        stackSeparation={15}
-        overlayLabels={overlayLabels}
-        animateOverlayLabelsOpacity
-        animateCardOpacity
-        swipeBackCard
-      >
-        <Button onPress={onSwipeBack} title='Swipe Back' />
-      </Swiper>
-      ) : (
-        <></>
-      )}
-    </View>
-  )
+	return (
+		<View style={styles.container}>
+			{ cards.length > 0 ? (
+				<Swiper
+					ref={swiper => { setSwipeComponent(swiper) }}
+					onSwiped={(index) => onSwiped(index, 'general')}
+					onSwipedLeft={(index) => onSwiped(index, 'left')}
+					onSwipedRight={(index) => onSwiped(index, 'right')}
+					onSwipedTop={(index) => onSwiped(index, 'top')}
+					onSwipedBottom={(index) => onSwiped(index, 'bottom')}
+					onTapCard={onTapCard}
+					cards={cards}
+					cardIndex={cardIndex}
+					cardVerticalMargin={80}
+					renderCard={renderCard}
+					onSwipedAll={onSwipedAllCards}
+					stackSize={3}
+					stackSeparation={15}
+					overlayLabels={overlayLabels}
+					animateOverlayLabelsOpacity
+					animateCardOpacity
+					swipeBackCard
+				>
+					<Button onPress={onSwipeBack} title='Swipe Back' />
+				</Swiper>
+			) : (
+				<></>
+			)}
+		</View>
+	)
 
 }
 
@@ -169,17 +169,17 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		backgroundColor: "white",
 	},
-  cardTextContainer: {
-    flex: 1,
-    justifyContent: "flex-end",
-  },
+	cardTextContainer: {
+		flex: 1,
+		justifyContent: "flex-end",
+	},
 	cardTitle: {
 		fontSize: 28,
 		fontWeight: "bold",
 	},
 	cardText: {},
 	cardImage: {
-    resizeMode: 'contain',
+		resizeMode: 'contain',
 		flex: 2
 	},
 	text: {

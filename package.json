@@ -9,6 +9,7 @@
     "build": "expo build:web"
   },
   "dependencies": {
+    "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.8",
     "@react-navigation/native": "^5.9.3",

@@ -71,18 +71,18 @@ export default function LoginScreen({ navigation }) {
       />
 
       <TouchableOpacity style={styles.button} onPress={() => login()}>
-        <Text style={styles.buttonText}>login</Text>
+        <Text style={styles.buttonText}>Kirjaudu sisään</Text>
       </TouchableOpacity>
       <Button
         buttonStyle={styles.registerBtn}
-        title="register"
+        title="Rekisteröi tili"
         onPress={() => navigation.navigate("Signup")}
       />
 
       <View style={styles.forgot}>
         <Button
           buttonStyle={styles.forgotBtn}
-          title="forgotPassword"
+          title="Salasana unohtunut?"
           onPress={() => navigation.navigate("ForgotPassword")}
         />
       </View>
