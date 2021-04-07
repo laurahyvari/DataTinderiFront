@@ -1,5 +1,5 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState, useEffect, Component } from "react";
+
+import React, { useState, useEffect} from "react";
 import Swiper from "react-native-deck-swiper";
 import { Button, Dimensions, Image, StyleSheet, Text, View } from "react-native";
 import Api from "../utils/Api";
@@ -27,11 +27,11 @@ const renderCard = (cardData, cardIndex) => {
 	);
 };
 
-export default function HomeScreen(props) {
+export default function HomeScreen() {
 	const [cards, setCards] = useState([]);
-	const [swipedAllCards, setSwipedAllCards] = useState(false);
-	const [swipeDirection, setSwipeDirection] = useState("");
-	const [cardIndex, setCardIndex] = useState(0);
+
+
+
 	const [swipeComponent, setSwipeComponent] = useState(null);
 
 	useEffect(() => {
@@ -55,9 +55,7 @@ export default function HomeScreen(props) {
 			const token = await firebase.auth().currentUser.getIdToken();
 			// Ei bueno, mut riittää demoon.
 			const like = await Api.addLike(cards[index].id, token);
-			props.onSwipedRight(cards[index])
-
-
+	
 		}
 	}
 
@@ -90,7 +88,6 @@ export default function HomeScreen(props) {
 					onSwipedBottom={(index) => onSwiped(index, 'bottom')}
 					onTapCard={onTapCard}
 					cards={cards}
-					cardIndex={cardIndex}
 					cardVerticalMargin={80}
 					renderCard={renderCard}
 					onSwipedAll={onSwipedAllCards}

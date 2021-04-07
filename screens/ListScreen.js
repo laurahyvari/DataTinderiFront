@@ -18,13 +18,11 @@ import firebase from "../config/Firebase";
 //   )
 // }
 
-export default function ListScreen(props) {
+export default function ListScreen({ navigation }) {
   ""
   const [likes, setLikes] = useState([]);
 
-  const navigateToPlayer = () => {
-    props.navigation.navigate('Player')
-  }
+
 
   useEffect(() => {
     getLikes();
@@ -45,7 +43,7 @@ export default function ListScreen(props) {
         {likes.length > 0 ?
           likes.map(program => (
             <ListItem key={program.key} bottomDivider
-              onLongPress={() => console.log("Poista")}>
+              onLongPress={() => navigation.navigate('Player', { program })}>
               <ListItem.Content>
                 <ListItem.Title>{program.data.program_id} </ListItem.Title>
               </ListItem.Content>
