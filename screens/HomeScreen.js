@@ -42,6 +42,9 @@ export default function HomeScreen () {
     setCards(newSuggestions)
   }
 
+  // TODO: korvataanko kaikkia swaippeja käsittelevä onSwiped -funktio mielummin erillisillä funktioilla?
+  // esim. onLike(), onDislike() jne?
+  // TODO: selvitettävä myös käytetäänkö edes kaikkia swipe -suuntia vai ei?
   const onSwiped = async (index, type) => {
     console.log(`on swiped ${type}`)
     if (type === 'right') {
