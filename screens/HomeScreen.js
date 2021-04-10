@@ -11,15 +11,15 @@ const renderCard = (cardData, cardIndex) => {
   const maxHeight = Math.round(Dimensions.get('window').height * 0.4)
 
   return (
-    <View style={styles.card} key={cardData.id}>
+    <View style={styles.card} key={cardData._id}>
       <View style={styles.cardTextContainer}>
-        <Text style={styles.cardTitle}>{cardData.title || 'Ohjelman nimi'}</Text>
+        <Text style={styles.cardTitle}>{cardData.title.fi || 'Ohjelman nimi'}</Text>
         <Text style={styles.cardDescription}>{cardData.description ? cardData.description.fi : ''}</Text>
       </View>
-      {cardData.image_id && <Image
+      {cardData.image && <Image
         style={styles.cardImage}
         source={{
-          uri: `https://images.cdn.yle.fi/image/upload/w_${maxWidth},h_${maxHeight},c_limit/${cardData.image_id.id}`
+          uri: `https://images.cdn.yle.fi/image/upload/w_${maxWidth},h_${maxHeight},c_limit/${cardData.image.id}`
         }}
       />}
     </View>
@@ -35,6 +35,10 @@ export default function HomeScreen () {
     refreshSuggestions()
   }, [])
 
+  useEffect(() => {
+    console.log(cards)
+  }, [cards])
+
   const refreshSuggestions = async () => {
     const token = await firebase.auth().currentUser.getIdToken()
     const newSuggestions = await Api.getSuggestions(10, token)
@@ -42,6 +46,9 @@ export default function HomeScreen () {
     setCards(newSuggestions)
   }
 
+  // TODO: korvataanko kaikkia swaippeja käsittelevä onSwiped -funktio mielummin erillisillä funktioilla?
+  // esim. onLike(), onDislike() jne?
+  // TODO: selvitettävä myös käytetäänkö edes kaikkia swipe -suuntia vai ei?
   const onSwiped = async (index, type) => {
     console.log(`on swiped ${type}`)
     if (type === 'right') {
@@ -70,7 +77,7 @@ export default function HomeScreen () {
 
   return (
     <View style={styles.container}>
-      { cards.length > 0
+      {cards.length > 0
         ? (
           <Swiper
             ref={swiper => { setSwipeComponent(swiper) }}

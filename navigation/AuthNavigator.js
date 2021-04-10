@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useState, useEffect, createContext } from 'react'
-import LoggedInNav from '../navigation/LoggedInNav'
-import LoggedOutNav from '../navigation/LoggedOutNav'
+import LoggedInNav from './LoggedInNav'
+import LoggedOutNav from './LoggedOutNav'
 import firebase from '../config/Firebase'
 
 export default function AuthNavigator () {
