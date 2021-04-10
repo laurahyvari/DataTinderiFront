@@ -17,10 +17,16 @@ module.exports = {
   plugins: [
     'react'
   ],
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  },
   rules: {
     indent: [
       'error',
       2
-    ]
+    ],
+    'react/prop-types': 0
   }
 }

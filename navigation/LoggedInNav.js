@@ -1,9 +1,9 @@
 import 'react-native-gesture-handler'
-import React from 'react';
+import React from 'react'
 
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Entypo from '@expo/vector-icons/Entypo'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import Ionicons from '@expo/vector-icons/Ionicons'
@@ -12,9 +12,9 @@ import ListScreen from '../screens/ListScreen'
 import PlayerScreen from '../screens/PlayerScreen'
 import SettingsScreen from '../screens/SettingsScreen'
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator()
 
-export default function App() {
+export default function App () {
   return (
 
     <NavigationContainer>
@@ -28,7 +28,7 @@ export default function App() {
                   size={size}
                   color={color}
                 />
-              );
+              )
             } else if (route.name === 'List') {
               return (
                 <Ionicons
@@ -36,7 +36,7 @@ export default function App() {
                   size={size}
                   color={color}
                 />
-              );
+              )
             } else if (route.name === 'Player') {
               return (
                 <Entypo
@@ -44,7 +44,7 @@ export default function App() {
                   size={size}
                   color={color}
                 />
-              );
+              )
             } else if (route.name === 'Settings') {
               return (
                 <FontAwesome5
@@ -52,9 +52,9 @@ export default function App() {
                   size={size}
                   color={color}
                 />
-              );
+              )
             }
-          },
+          }
         })}
         tabBarOptions={{
           activeTintColor: 'tomato',
@@ -69,7 +69,7 @@ export default function App() {
         <Tab.Screen name="Settings" component={SettingsScreen} />
       </Tab.Navigator>
     </NavigationContainer>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -89,7 +89,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 50,
     backgroundColor: 'transparent'
-  },
-});
-
-
+  }
+})
