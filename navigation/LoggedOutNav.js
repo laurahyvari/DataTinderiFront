@@ -1,13 +1,13 @@
-import * as React from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import * as React from 'react'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
 
-import LoginScreen from "../screens/LoginScreen";
-import SignupScreen from "../screens/SignupScreen";
+import LoginScreen from '../screens/LoginScreen'
+import SignupScreen from '../screens/SignupScreen'
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 
-export default function LoggedOutNav() {
+export default function LoggedOutNav () {
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode="none">
@@ -15,5 +15,5 @@ export default function LoggedOutNav() {
         <Stack.Screen name="Signup" component={SignupScreen} />
       </Stack.Navigator>
     </NavigationContainer>
-  );
+  )
 }

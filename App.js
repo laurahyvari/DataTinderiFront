@@ -1,6 +1,6 @@
-import * as React from "react";
-import AuthNavigator from "./navigation/AuthNavigator";
+import * as React from 'react'
+import AuthNavigator from './navigation/AuthNavigator'
 
-export default function App() {
+export default function App () {
   return <AuthNavigator />
 }
