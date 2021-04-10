@@ -6,7 +6,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "build": "expo build:web"
+    "build": "expo build:web",
+    "lint": "eslint .",
+    "fix": "eslint . --fix"
   },
   "dependencies": {
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
@@ -32,7 +34,13 @@
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
-    "@babel/core": "~7.9.0"
+    "@babel/core": "~7.9.0",
+    "eslint": "^7.24.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "eslint-plugin-react": "^7.23.2"
   },
   "private": true
 }
