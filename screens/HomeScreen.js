@@ -11,15 +11,15 @@ const renderCard = (cardData, cardIndex) => {
   const maxHeight = Math.round(Dimensions.get('window').height * 0.4)
 
   return (
-    <View style={styles.card} key={cardData.id}>
+    <View style={styles.card} key={cardData._id}>
       <View style={styles.cardTextContainer}>
-        <Text style={styles.cardTitle}>{cardData.title || 'Ohjelman nimi'}</Text>
+        <Text style={styles.cardTitle}>{cardData.title.fi || 'Ohjelman nimi'}</Text>
         <Text style={styles.cardDescription}>{cardData.description ? cardData.description.fi : ''}</Text>
       </View>
-      {cardData.image_id && <Image
+      {cardData.image && <Image
         style={styles.cardImage}
         source={{
-          uri: `https://images.cdn.yle.fi/image/upload/w_${maxWidth},h_${maxHeight},c_limit/${cardData.image_id.id}`
+          uri: `https://images.cdn.yle.fi/image/upload/w_${maxWidth},h_${maxHeight},c_limit/${cardData.image.id}`
         }}
       />}
     </View>
@@ -34,6 +34,10 @@ export default function HomeScreen () {
   useEffect(() => {
     refreshSuggestions()
   }, [])
+
+  useEffect(() => {
+    console.log(cards)
+  }, [cards])
 
   const refreshSuggestions = async () => {
     const token = await firebase.auth().currentUser.getIdToken()
@@ -73,7 +77,7 @@ export default function HomeScreen () {
 
   return (
     <View style={styles.container}>
-      { cards.length > 0
+      {cards.length > 0
         ? (
           <Swiper
             ref={swiper => { setSwipeComponent(swiper) }}
