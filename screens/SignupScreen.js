@@ -2,8 +2,8 @@ import * as React from 'react'
 import {
   View,
   StyleSheet,
-  TouchableOpacity,
-  Alert
+  TouchableOpacity
+
 } from 'react-native'
 import axios from 'axios'
 import { useState } from 'react'
@@ -19,15 +19,14 @@ export default function SignupScreen ({ navigation }) {
 
   const handleSignUp = async () => {
     try {
-      const response = await axios.post('https://data-tinder-back.herokuapp.com/user', {
+      await axios.post('https://data-tinder-back.herokuapp.com/user', {
         email: email,
         firstName: firstname,
         lastName: lastname,
         password: password
       })
-    console.log(response.data)
     } catch (e) {
-      Alert.alert(e.message)
+      console.log(e.message)
     }
   }
 

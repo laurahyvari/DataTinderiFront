@@ -10,16 +10,16 @@ const getSuggestions = async (count, token) => {
   return response.data
 }
 
-const addLike = async (movieID, token) => {
-  const response = await axios.post('https://data-tinder-back.herokuapp.com/api/preferences/', {
+const addVote = async (movieID, type, vote, token) => {
+  const response = await axios.post('https://data-tinder-back.herokuapp.com/api/votes/', {
     program_id: movieID,
-    swipe: 1
+    type: type,
+    value: vote
   }, {
     headers: {
       Authorization: token
     }
   }
-
   )
   return response.data
 }
@@ -31,10 +31,7 @@ const getLikes = async (token) => {
     }
   }
   )
-
-  console.log(response)
-
   return response.data
 }
 
-export default { getSuggestions, addLike, getLikes }
+export default { getSuggestions, addVote, getLikes }

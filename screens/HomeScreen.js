@@ -42,7 +42,7 @@ export default function HomeScreen () {
   const refreshSuggestions = async () => {
     const token = await firebase.auth().currentUser.getIdToken()
     const newSuggestions = await Api.getSuggestions(10, token)
-    console.log(token)
+
     setCards(newSuggestions)
   }
 
@@ -50,29 +50,27 @@ export default function HomeScreen () {
   // esim. onLike(), onDislike() jne?
   // TODO: selvitettävä myös käytetäänkö edes kaikkia swipe -suuntia vai ei?
   const onSwiped = async (index, type) => {
-    console.log(`on swiped ${type}`)
+    const token = await firebase.auth().currentUser.getIdToken()
+    let vote = 0
     if (type === 'right') {
-      console.log(`LIKE: ${index}`)
+      const programType = cards[index].partOfSeries === null ? 'movies' : 'series'
+      vote = 1
 
-      // Tämä tilamuuttujaan ja jonkinlainen refresh -metodi pitämään tokenia yllä.
-      const token = await firebase.auth().currentUser.getIdToken()
-      // Ei bueno, mut riittää demoon.
-      await Api.addLike(cards[index].id, token)
+      await Api.addLike(cards[index].id, programType, vote, token)
+    } else {
+      vote = -1
+      await Api.addVote(cards[index].id, token, vote)
     }
   }
 
   const onSwipedAllCards = () => {
     // TODO: halutaanko tehdä jotain kun kaikki haetut kortit on swaipattu? Esim. haetaan lisää ehdotuksia?
+    refreshSuggestions()
   }
 
   const onSwipeBack = () => {
     console.log('Back button pressed!')
     swipeComponent.swipeBack()
-  }
-
-  const onTapCard = () => {
-    console.log('on card tapped')
-    swipeComponent.swipeLeft()
   }
 
   return (
@@ -84,9 +82,6 @@ export default function HomeScreen () {
             onSwiped={(index) => onSwiped(index, 'general')}
             onSwipedLeft={(index) => onSwiped(index, 'left')}
             onSwipedRight={(index) => onSwiped(index, 'right')}
-            onSwipedTop={(index) => onSwiped(index, 'top')}
-            onSwipedBottom={(index) => onSwiped(index, 'bottom')}
-            onTapCard={onTapCard}
             cards={cards}
             cardVerticalMargin={80}
             renderCard={renderCard}
@@ -97,6 +92,7 @@ export default function HomeScreen () {
             animateOverlayLabelsOpacity
             animateCardOpacity
             swipeBackCard
+            verticalSwipe={false}
           >
             <Button onPress={onSwipeBack} title='Swipe Back' />
           </Swiper>
@@ -114,11 +110,7 @@ const labelStyle = {
   color: 'white',
   borderWidth: 1
 }
-const centerWrapperStyle = {
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center'
-}
+
 const rightWrapperStyle = {
   flexDirection: 'column',
   alignItems: 'flex-start',
@@ -135,10 +127,7 @@ const leftWrapperStyle = {
 }
 
 const overlayLabels = {
-  bottom: {
-    title: 'BLEAH',
-    style: { label: labelStyle, wrapper: centerWrapperStyle }
-  },
+
   left: {
     title: 'NOPE',
     style: { label: labelStyle, wrapper: leftWrapperStyle }
@@ -146,11 +135,8 @@ const overlayLabels = {
   right: {
     title: 'LIKE',
     style: { label: labelStyle, wrapper: rightWrapperStyle }
-  },
-  top: {
-    title: 'SUPER LIKE',
-    style: { label: labelStyle, wrapper: centerWrapperStyle }
   }
+
 }
 
 const styles = StyleSheet.create({
