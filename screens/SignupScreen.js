@@ -5,33 +5,27 @@ import {
   TouchableOpacity,
   Alert
 } from 'react-native'
+import axios from 'axios'
 import { useState } from 'react'
-import firebase, { db } from '../config/Firebase'
 import { Text, Input } from 'react-native-elements'
-
 import { Ionicons, FontAwesome } from '@expo/vector-icons'
+
 export default function SignupScreen ({ navigation }) {
   const [firstname, setFirstName] = useState('')
   const [lastname, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
   const [toggle, setToggle] = useState(true)
 
-  async function handleSignUp () {
+  const handleSignUp = async () => {
     try {
-      await firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then((userCredentials) => {
-          const uid = userCredentials.user.uid
-
-          db.ref('users').child(uid).child('details').set({
-            firstname: firstname,
-            lastname: lastname
-          })
-        })
-        .then(() => navigation.navigate('Login'))
+      const response = await axios.post('https://data-tinder-back.herokuapp.com/user', {
+        email: email,
+        firstName: firstname,
+        lastName: lastname,
+        password: password
+      })
+    console.log(response.data)
     } catch (e) {
       Alert.alert(e.message)
     }
