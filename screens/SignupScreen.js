@@ -24,7 +24,7 @@ export default function SignupScreen ({ navigation }) {
         firstName: firstname,
         lastName: lastname,
         password: password
-      })
+      }).then(() => navigation.navigate('Login'))
     } catch (e) {
       console.log(e.message)
     }

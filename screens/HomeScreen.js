@@ -35,10 +35,6 @@ export default function HomeScreen () {
     refreshSuggestions()
   }, [])
 
-  useEffect(() => {
-    console.log(cards)
-  }, [cards])
-
   const refreshSuggestions = async () => {
     const token = await firebase.auth().currentUser.getIdToken()
     const newSuggestions = await Api.getSuggestions(10, token)
@@ -57,18 +53,13 @@ export default function HomeScreen () {
     switch (type) {
     case 'right':
       vote = 1
-      await Api.addVote(cards[index].id, programType, vote, token)
+      await Api.addVote(cards[index]._id, programType, vote, token)
       break
     case 'left':
       vote = -1
-      await Api.addVote(cards[index].id, programType, vote, token)
+      await Api.addVote(cards[index]._id, programType, vote, token)
       break
     }
-  }
-
-  const onSwipedAllCards = () => {
-    // TODO: halutaanko tehdä jotain kun kaikki haetut kortit on swaipattu? Esim. haetaan lisää ehdotuksia?
-    refreshSuggestions()
   }
 
   const onSwipeBack = () => {
@@ -88,7 +79,7 @@ export default function HomeScreen () {
             cards={cards}
             cardVerticalMargin={80}
             renderCard={renderCard}
-            onSwipedAll={onSwipedAllCards}
+            onSwipedAll={() => refreshSuggestions}
             stackSize={3}
             stackSeparation={15}
             overlayLabels={overlayLabels}

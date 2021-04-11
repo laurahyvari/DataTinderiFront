@@ -1,7 +1,9 @@
 import axios from 'axios'
 
+// const devUrl = "http://localhost:5000"
+const url = 'https://data-tinder-back.herokuapp.com'
 const getSuggestions = async (count, token) => {
-  const response = await axios.get(`https://data-tinder-back.herokuapp.com/api/suggestions/${count}`, {
+  const response = await axios.get(`${url}/api/suggestions/${count}`, {
     headers: {
       Authorization: token
     }
@@ -11,7 +13,8 @@ const getSuggestions = async (count, token) => {
 }
 
 const addVote = async (movieID, type, vote, token) => {
-  const response = await axios.post('https://data-tinder-back.herokuapp.com/api/votes/', {
+  console.log(movieID, type, vote)
+  const response = await axios.post(`${url}/api/votes/`, {
     program_id: movieID,
     type: type,
     value: vote
@@ -25,7 +28,7 @@ const addVote = async (movieID, type, vote, token) => {
 }
 
 const getLikes = async (token) => {
-  const response = await axios.get('https://data-tinder-back.herokuapp.com/api/preferences', {
+  const response = await axios.get(`${url}/api/preferences`, {
     headers: {
       Authorization: token
     }
