@@ -51,15 +51,14 @@ export default function HomeScreen () {
   // TODO: selvitettävä myös käytetäänkö edes kaikkia swipe -suuntia vai ei?
   const onSwiped = async (index, type) => {
     const token = await firebase.auth().currentUser.getIdToken()
+    const programType = cards[index].partOfSeries === null ? 'movies' : 'series'
     let vote = 0
     if (type === 'right') {
-      const programType = cards[index].partOfSeries === null ? 'movies' : 'series'
       vote = 1
-
       await Api.addLike(cards[index].id, programType, vote, token)
     } else {
       vote = -1
-      await Api.addVote(cards[index].id, token, vote)
+      await Api.addVote(cards[index].id, programType, vote, token)
     }
   }
 
