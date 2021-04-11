@@ -53,12 +53,16 @@ export default function HomeScreen () {
     const token = await firebase.auth().currentUser.getIdToken()
     const programType = cards[index].partOfSeries === null ? 'movies' : 'series'
     let vote = 0
-    if (type === 'right') {
+
+    switch (type) {
+    case 'right':
       vote = 1
-      await Api.addLike(cards[index].id, programType, vote, token)
-    } else {
+      await Api.addVote(cards[index].id, programType, vote, token)
+      break
+    case 'left':
       vote = -1
       await Api.addVote(cards[index].id, programType, vote, token)
+      break
     }
   }
 
