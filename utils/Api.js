@@ -15,7 +15,7 @@ const getSuggestions = async (count, token) => {
 const addVote = async (Id, type, vote, token) => {
   console.log(Id, type, vote)
   const response = await axios.post(`${url}/api/votes/`, {
-    program_id: Id,
+    programId: Id,
     type: type,
     value: vote
   }, {
