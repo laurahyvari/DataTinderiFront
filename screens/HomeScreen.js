@@ -28,17 +28,16 @@ const renderCard = (cardData, cardIndex) => {
 
 export default function HomeScreen () {
   const [cards, setCards] = useState([])
-
   const [swipeComponent, setSwipeComponent] = useState(null)
+  const [token, setToken] = useState(null);
 
-  useEffect(() => {
-    refreshSuggestions()
-  }, [])
+  const fetchToken = async () => {
+    const fetchedToken = await firebase.auth().currentUser.getIdToken();
+    setToken(fetchedToken);
+  }
 
   const refreshSuggestions = async () => {
-    const token = await firebase.auth().currentUser.getIdToken()
     const newSuggestions = await Api.getSuggestions(10, token)
-
     setCards(newSuggestions)
   }
 
@@ -46,10 +45,8 @@ export default function HomeScreen () {
   // esim. onLike(), onDislike() jne?
   // TODO: selvitettävä myös käytetäänkö edes kaikkia swipe -suuntia vai ei?
   const onSwiped = async (index, type) => {
-    const token = await firebase.auth().currentUser.getIdToken()
-    const programType = cards[index].partOfSeries === null ? 'movies' : 'series'
+    const programType = cards[index].partOfSeries === undefined ? 'movies' : 'series'
     let vote = 0
-
     switch (type) {
     case 'right':
       vote = 1
@@ -66,6 +63,16 @@ export default function HomeScreen () {
     console.log('Back button pressed!')
     swipeComponent.swipeBack()
   }
+
+  useEffect(() => {
+    fetchToken();
+  }, [])
+
+  useEffect(() => {
+    if (token !== null) {
+      refreshSuggestions();
+    }
+  }, [token])
 
   return (
     <View style={styles.container}>
@@ -121,7 +128,6 @@ const leftWrapperStyle = {
 }
 
 const overlayLabels = {
-
   left: {
     title: 'NOPE',
     style: { label: labelStyle, wrapper: leftWrapperStyle }

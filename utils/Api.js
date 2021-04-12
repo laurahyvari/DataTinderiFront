@@ -12,10 +12,10 @@ const getSuggestions = async (count, token) => {
   return response.data
 }
 
-const addVote = async (movieID, type, vote, token) => {
-  console.log(movieID, type, vote)
+const addVote = async (Id, type, vote, token) => {
+  console.log(Id, type, vote)
   const response = await axios.post(`${url}/api/votes/`, {
-    program_id: movieID,
+    program_id: Id,
     type: type,
     value: vote
   }, {
@@ -28,7 +28,7 @@ const addVote = async (movieID, type, vote, token) => {
 }
 
 const getLikes = async (token) => {
-  const response = await axios.get(`${url}/api/preferences`, {
+  const response = await axios.get(`${url}/api/votes`, {
     headers: {
       Authorization: token
     }
