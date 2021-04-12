@@ -19,7 +19,7 @@ export default function SignupScreen ({ navigation }) {
 
   const handleSignUp = async () => {
     try {
-      await axios.post('https://data-tinder-back.herokuapp.com/user', {
+      await axios.post('https://data-tinder-back.herokuapp.com/register', {
         email: email,
         firstName: firstname,
         lastName: lastname,
