@@ -29,11 +29,11 @@ const renderCard = (cardData, cardIndex) => {
 export default function HomeScreen () {
   const [cards, setCards] = useState([])
   const [swipeComponent, setSwipeComponent] = useState(null)
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(null)
 
   const fetchToken = async () => {
-    const fetchedToken = await firebase.auth().currentUser.getIdToken();
-    setToken(fetchedToken);
+    const fetchedToken = await firebase.auth().currentUser.getIdToken()
+    setToken(fetchedToken)
   }
 
   const refreshSuggestions = async () => {
@@ -65,12 +65,12 @@ export default function HomeScreen () {
   }
 
   useEffect(() => {
-    fetchToken();
+    fetchToken()
   }, [])
 
   useEffect(() => {
     if (token !== null) {
-      refreshSuggestions();
+      refreshSuggestions()
     }
   }, [token])
 
