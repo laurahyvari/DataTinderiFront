@@ -1,49 +1,26 @@
 
 import { StatusBar } from 'expo-status-bar'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, View, ScrollView } from 'react-native'
-import { ListItem } from 'react-native-elements'
-import Api from '../utils/Api'
-import firebase from '../config/Firebase'
-
-//
-// const ListItem = (props) => {
-//   return (
-//     <View style={styles.listItem}>
-//       <Text style={styles.programTitle}>{props.program}</Text>
-//       <FontAwesome5 name={'play'} size={18} style={styles.playIcon} />
-//     </View>
-//   )
-// }
 
 export default function ListScreen ({ navigation }) {
-  ''
-  const [likes, setLikes] = useState([])
-
   useEffect(() => {
-    getLikes()
-  }, [])
 
-  const getLikes = async () => {
-    const token = await firebase.auth().currentUser.getIdToken()
-    const response = await Api.getLikes(token)
-    console.log(response)
-    setLikes(response)
-  }
+  }, [])
 
   return (
     <View style={styles.container}>
       <ScrollView>
-        {likes.length > 0
-          ? likes.map(program => (
-            <ListItem key={program.key} bottomDivider
+        {/*   {list.length > 0
+          ? list.map(program => (
+            <ListItem key={program._id} bottomDivider
               onLongPress={() => navigation.navigate('Player', { program })}>
               <ListItem.Content>
-                <ListItem.Title>{program.data.program_id} </ListItem.Title>
+                <ListItem.Title>{program.title} </ListItem.Title>
               </ListItem.Content>
               <ListItem.Chevron name='play' type='font-awesome' size={18} color="black"></ListItem.Chevron>
             </ListItem>))
-          : null}
+          : null} */}
 
       </ScrollView>
       <StatusBar style="auto" />

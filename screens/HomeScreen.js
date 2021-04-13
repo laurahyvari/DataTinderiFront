@@ -1,9 +1,7 @@
-
 import React, { useState, useEffect } from 'react'
 import Swiper from 'react-native-deck-swiper'
 import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
 import Api from '../utils/Api'
-import firebase from '../config/Firebase'
 
 const renderCard = (cardData, cardIndex) => {
   // käytetään näitä arvoja jo ohjelman kuvaa haettaessa (alempana Image-komponentin source)
@@ -29,22 +27,15 @@ const renderCard = (cardData, cardIndex) => {
 
 export default function HomeScreen () {
   const [cards, setCards] = useState([])
-  const [token, setToken] = useState(null)
   const [isLoading, setLoading] = useState(true)
 
   // TODO: korvataanko kaikkia swaippeja käsittelevä onSwiped -funktio mielummin erillisillä funktioilla?
   // esim. onLike(), onDislike() jne?
   // TODO: selvitettävä myös käytetäänkö edes kaikkia swipe -suuntia vai ei?
 
-  useEffect(async () => {
-    fetchToken()
-  }, [])
-
   useEffect(() => {
-    if (token !== null) {
-      refreshSuggestions()
-    }
-  }, [token])
+    refreshSuggestions()
+  }, [])
 
   const onSwiped = async (index, type, vote) => {
     const programType = cards[index].partOfSeries === undefined ? 'movies' : 'series'
@@ -52,24 +43,20 @@ export default function HomeScreen () {
     switch (type) {
     case 'right':
       vote = 1
-      await Api.addVote(cards[index]._id, programType, vote, token)
+      await Api.addVote(cards[index]._id, programType, vote)
+      // await Api.addLike(cards[index], token)
       refreshSuggestions()
       break
     case 'left':
       vote = -1
-      await Api.addVote(cards[index]._id, programType, vote, token)
+      await Api.addVote(cards[index]._id, programType, vote)
       refreshSuggestions()
       break
     }
   }
 
-  const fetchToken = async () => {
-    const fetchedToken = await firebase.auth().currentUser.getIdToken()
-    setToken(fetchedToken)
-  }
-
   const refreshSuggestions = async () => {
-    const newSuggestions = await Api.getSuggestions(1, token)
+    const newSuggestions = await Api.getSuggestions(1)
     setCards(newSuggestions)
     setLoading(false)
   }

@@ -1,9 +1,19 @@
 import axios from 'axios'
+import firebase from '../config/Firebase'
 
-// const devUrl = "http://localhost:5000"
-const url = 'https://data-tinder-back.herokuapp.com'
-const getSuggestions = async (count, token) => {
-  const response = await axios.get(`${url}/api/suggestions/${count}`, {
+axios.defaults.baseURL = 'https://data-tinder-back.herokuapp.com'
+
+// axios.defaults.baseURL = "http://localhost:5000"
+
+const getToken = async () => {
+  const token = firebase.auth().currentUser.getIdToken()
+
+  return token
+}
+
+const getSuggestions = async (count) => {
+  const token = await getToken()
+  const response = await axios.get(`/api/suggestions/${count}`, {
     headers: {
       Authorization: token
     }
@@ -12,9 +22,10 @@ const getSuggestions = async (count, token) => {
   return response.data
 }
 
-const addVote = async (Id, type, vote, token) => {
+const addVote = async (Id, type, vote) => {
+  const token = await getToken()
   console.log(Id, type, vote)
-  const response = await axios.post(`${url}/api/votes/`, {
+  const response = await axios.post('api/votes/', {
     programId: Id,
     type: type,
     value: vote
@@ -27,8 +38,21 @@ const addVote = async (Id, type, vote, token) => {
   return response.data
 }
 
-const getLikes = async (token) => {
-  const response = await axios.get(`${url}/api/votes`, {
+/* const addLike = async (id) => {
+  const token = await getToken()
+  const response = await axios.post('api/list/', {
+    programId: id
+  }, {
+    headers: {
+      Authorization: token
+    }
+  })
+  return response.data
+} */
+
+const getLikes = async () => {
+  const token = await getToken()
+  const response = await axios.get('api/votes', {
     headers: {
       Authorization: token
     }
