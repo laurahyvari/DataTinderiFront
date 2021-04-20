@@ -16,25 +16,11 @@ export default function HomeScreen () {
 
   const onSwiped = async (index, type, vote) => {
     const programType = cards[index].partOfSeries === undefined ? 'movies' : 'series'
-
     switch (type) {
     case 'right':
       vote = 1
       await Api.addVote(cards[index]._id, programType, vote)
-      console.log(cards[index].suggestionType, 'homescreen')
-
-      if (cards[index].suggestionType === 'match') {
-        setModalVisible(true)
-        return (
-          <MatchModal
-            program={cards[index]}
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
-          />)
-      } else {
-        refreshSuggestions()
-      }
-
+      setModalVisible(!modalVisible)
       break
     case 'left':
       vote = -1
@@ -52,6 +38,13 @@ export default function HomeScreen () {
 
   return (
     <View style={styles.container}>
+      <MatchModal
+        program={cards}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        refreshSuggestions={refreshSuggestions}
+       >
+      </MatchModal>
       {cards.length > 0 && !isLoading
         ? (
           <Swiper
@@ -75,7 +68,7 @@ export default function HomeScreen () {
         )
         : (
           <></>
-        )}
+        )} 
     </View>
   )
 }
@@ -117,7 +110,9 @@ const overlayLabels = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2176AE'
+    backgroundColor: '#2176AE',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   card: {
     flex: 1,

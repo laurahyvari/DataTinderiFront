@@ -1,30 +1,29 @@
 import React from 'react'
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native'
 
-const MatchModal = ({ program, modalVisible, setModalVisible, refreshSuggestions }) => {
-  console.log(program)
+export default function MatchModal(props) {
+  console.log(props)
+
+  const toggleModal= () => {
+    props.setModalVisible(!props.modalVisible)
+    props.refreshSuggestions()
+  }
+
   return (
     <View style={styles.centeredView}>
       <Modal
         animationType="slide"
-        transparent={false}
-        visible={true}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.')
-          setModalVisible(!modalVisible)
-        }}
+        visible={props.modalVisible}
       >
-        <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World!</Text>
+            <Text style={styles.modalText}>It's A Match!</Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible).then(refreshSuggestions())}
+              onPress={toggleModal}
             >
-              <Text style={styles.textStyle}>Hide Modal</Text>
+              <Text style={styles.textStyle}>Close</Text>
             </Pressable>
           </View>
-        </View>
       </Modal>
     </View>
   )
@@ -35,7 +34,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22
+    marginTop: 22,
   },
   modalView: {
     margin: 20,
@@ -73,5 +72,3 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   }
 })
-
-export default MatchModal
