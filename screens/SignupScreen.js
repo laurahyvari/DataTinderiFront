@@ -18,6 +18,7 @@ export default function SignupScreen ({ navigation }) {
   const [toggle, setToggle] = useState(true)
 
   const handleSignUp = async () => {
+    // FIXME - tämä try catch ei koskaan palauta virhettä. Siirtyy aina login.
     try {
       await axios.post('https://data-tinder-back.herokuapp.com/register', {
         email: email,
@@ -38,7 +39,7 @@ export default function SignupScreen ({ navigation }) {
         containerStyle={styles.inputBox}
         value={firstname}
         onChangeText={(firstname) => setFirstName(firstname)}
-        placeholder="firstname"
+        placeholder="Firstname"
         placeholderTextColor="white"
         inputStyle={{ color: 'white' }}
         leftIcon={<Ionicons name="ios-person" size={24} color="white" />}
@@ -47,7 +48,7 @@ export default function SignupScreen ({ navigation }) {
         containerStyle={styles.inputBox}
         value={lastname}
         onChangeText={(lastname) => setLastName(lastname)}
-        placeholder="lastname"
+        placeholder="Lastname"
         placeholderTextColor="white"
         inputStyle={{ color: 'white' }}
         leftIcon={<Ionicons name="ios-person" size={24} color="white" />}
@@ -56,7 +57,7 @@ export default function SignupScreen ({ navigation }) {
         containerStyle={styles.inputBox}
         value={email}
         onChangeText={(email) => setEmail(email)}
-        placeholder="email"
+        placeholder="Email"
         placeholderTextColor="white"
         inputStyle={{ color: 'white' }}
         leftIcon={<Ionicons name="ios-mail" size={24} color="white" />}
@@ -66,7 +67,7 @@ export default function SignupScreen ({ navigation }) {
         value={password}
         inputStyle={{ color: 'white' }}
         onChangeText={(password) => setPassword(password)}
-        placeholder="password"
+        placeholder="Password"
         secureTextEntry={!!toggle}
         placeholderTextColor="white"
         leftIcon={<FontAwesome name="lock" size={24} color="white" />}
@@ -97,7 +98,7 @@ export default function SignupScreen ({ navigation }) {
         }
       />
       <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-        <Text style={styles.buttonText}>signup</Text>
+        <Text style={styles.buttonText}>Signup</Text>
       </TouchableOpacity>
     </View>
   )
@@ -106,7 +107,7 @@ export default function SignupScreen ({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#282D4F',
+    backgroundColor: '#2176AE',
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -134,8 +135,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingVertical: 5,
     alignItems: 'center',
-    backgroundColor: '#FF6C00',
-    borderColor: '#FF6C00',
+    backgroundColor: '#FAA00F',
+    borderColor: '#FAA00F',
     borderWidth: 1,
     borderRadius: 5,
     width: 200

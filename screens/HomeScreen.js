@@ -1,37 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import Swiper from 'react-native-deck-swiper'
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Api from '../utils/Api'
-
-const renderCard = (cardData, cardIndex) => {
-  // käytetään näitä arvoja jo ohjelman kuvaa haettaessa (alempana Image-komponentin source)
-  // pienemmän kuvan hakeminen on nopeampaa ja joka tapauksessa se olisi skaalattu mahtumaan kortille
-  const maxWidth = Math.round(Dimensions.get('window').width * 0.8)
-  const maxHeight = Math.round(Dimensions.get('window').height * 0.4)
-
-  return (
-    <View style={styles.card} key={cardData._id}>
-      <View style={styles.cardTextContainer}>
-        <Text style={styles.cardTitle}>{cardData.title.fi || 'Ohjelman nimi'}</Text>
-        <Text style={styles.cardDescription}>{cardData.description ? cardData.description.fi : ''}</Text>
-      </View>
-      {cardData.image && <Image
-        style={styles.cardImage}
-        source={{
-          uri: `https://images.cdn.yle.fi/image/upload/w_${maxWidth},h_${maxHeight},c_limit/${cardData.image.id}`
-        }}
-      />}
-    </View>
-  )
-}
+import Card from '../components/Card'
+import MatchModal from '../components/MatchModal'
 
 export default function HomeScreen () {
   const [cards, setCards] = useState([])
   const [isLoading, setLoading] = useState(true)
-
-  // TODO: korvataanko kaikkia swaippeja käsittelevä onSwiped -funktio mielummin erillisillä funktioilla?
-  // esim. onLike(), onDislike() jne?
-  // TODO: selvitettävä myös käytetäänkö edes kaikkia swipe -suuntia vai ei?
+  const [modalVisible, setModalVisible] = useState(false)
 
   useEffect(() => {
     refreshSuggestions()
@@ -44,8 +21,20 @@ export default function HomeScreen () {
     case 'right':
       vote = 1
       await Api.addVote(cards[index]._id, programType, vote)
-      // await Api.addLike(cards[index], token)
-      refreshSuggestions()
+      console.log(cards[index].suggestionType, 'homescreen')
+
+      if (cards[index].suggestionType === 'match') {
+        setModalVisible(true)
+        return (
+          <MatchModal
+            program={cards[index]}
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+          />)
+      } else {
+        refreshSuggestions()
+      }
+
       break
     case 'left':
       vote = -1
@@ -66,11 +55,14 @@ export default function HomeScreen () {
       {cards.length > 0 && !isLoading
         ? (
           <Swiper
+            backgroundColor={styles.container.backgroundColor}
             onSwipedLeft={(index) => onSwiped(index, 'left', -1)}
             onSwipedRight={(index) => onSwiped(index, 'right', 1)}
             cards={cards}
             cardVerticalMargin={80}
-            renderCard={renderCard}
+            renderCard={(card) => {
+              return <Card cardData={card} />
+            }}
             onSwipedAll={() => setLoading(true)}
             stackSize={3}
             stackSeparation={15}
@@ -125,7 +117,7 @@ const overlayLabels = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#2176AE'
   },
   card: {
     flex: 1,

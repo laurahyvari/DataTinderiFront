@@ -1,28 +1,13 @@
 
 import { StatusBar } from 'expo-status-bar'
-import React, { useEffect } from 'react'
-import { StyleSheet, View, ScrollView } from 'react-native'
+import React from 'react'
+import { StyleSheet, View, Text } from 'react-native'
 
 export default function ListScreen ({ navigation }) {
-  useEffect(() => {
-
-  }, [])
-
   return (
     <View style={styles.container}>
-      <ScrollView>
-        {/*   {list.length > 0
-          ? list.map(program => (
-            <ListItem key={program._id} bottomDivider
-              onLongPress={() => navigation.navigate('Player', { program })}>
-              <ListItem.Content>
-                <ListItem.Title>{program.title} </ListItem.Title>
-              </ListItem.Content>
-              <ListItem.Chevron name='play' type='font-awesome' size={18} color="black"></ListItem.Chevron>
-            </ListItem>))
-          : null} */}
+      <Text style={styles.text}>Nothing here</Text>
 
-      </ScrollView>
       <StatusBar style="auto" />
     </View>
   )
@@ -30,34 +15,31 @@ export default function ListScreen ({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 24,
-    paddingVertical: 36,
-    justifyContent: 'flex-start',
-    textAlign: 'center'
-  },
-  listTitle: {
-    fontSize: 28,
-    fontWeight: 'bold'
-  },
-  listContainer: {},
-  listItem: {
-    alignContent: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 4,
-    padding: 8,
-    textAlign: 'left',
-    borderColor: '#E8E8E8',
-    borderWidth: 2,
-    borderRadius: 4
-  },
-  programTitle: {
-    flex: 6,
-    fontWeight: 'bold',
-    fontSize: 16
-  },
-  playIcon: {
     flex: 1,
-    marginVertical: 'auto'
+    backgroundColor: '#2176AE',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  button: {
+    marginTop: 30,
+    marginBottom: 20,
+    paddingVertical: 5,
+    alignItems: 'center',
+    backgroundColor: '#FF6C00',
+    borderColor: '#FF6C00',
+    borderWidth: 1,
+    borderRadius: 5,
+    width: 200
+  },
+  buttonText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff'
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff'
   }
+
 })

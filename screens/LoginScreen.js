@@ -81,7 +81,7 @@ export default function LoginScreen ({ navigation }) {
         <Button
           buttonStyle={styles.forgotBtn}
           title="Salasana unohtunut?"
-          onPress={() => navigation.navigate('ForgotPassword')}
+          onPress={() => Alert.alert('Täällä ei ole vielä mitään') /* navigation.navigate('ForgotPassword' */}
         />
       </View>
     </View>
@@ -91,7 +91,7 @@ export default function LoginScreen ({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#282D4F',
+    backgroundColor: '#2176AE',
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -112,8 +112,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingVertical: 5,
     alignItems: 'center',
-    backgroundColor: '#FF6C00',
-    borderColor: '#FF6C00',
+    backgroundColor: '#FAA00F',
+    borderColor: '#FAA00F',
     borderWidth: 1,
     borderRadius: 5,
     width: 200
@@ -148,8 +148,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingVertical: 5,
     alignItems: 'center',
-    backgroundColor: '#23103A',
-    borderColor: '#23103A',
+    backgroundColor: '#FE6847',
+    borderColor: '#FE6847',
     borderWidth: 1,
     borderRadius: 5,
     width: 200
