@@ -21,6 +21,7 @@ export default function HomeScreen () {
       vote = 1
       await Api.addVote(cards[index]._id, programType, vote)
       setModalVisible(!modalVisible)
+      refreshSuggestions()
       break
     case 'left':
       vote = -1
@@ -112,7 +113,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#2176AE',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    overflow: 'hidden',
   },
   card: {
     flex: 1,

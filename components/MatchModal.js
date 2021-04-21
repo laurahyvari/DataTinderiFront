@@ -1,17 +1,15 @@
 import React from 'react'
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native'
+import { Modal, StyleSheet, Text, Pressable, View } from 'react-native'
 
 export default function MatchModal(props) {
-  console.log(props)
-
   const toggleModal= () => {
     props.setModalVisible(!props.modalVisible)
-    props.refreshSuggestions()
   }
 
   return (
     <View style={styles.centeredView}>
       <Modal
+        transparent={true}
         animationType="slide"
         visible={props.modalVisible}
       >
@@ -37,7 +35,8 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-    margin: 20,
+    margin: '10%',
+    marginTop: '40%',
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
