@@ -5,6 +5,7 @@ const maxHeight = Math.round(Dimensions.get('window').height * 0.4)
 export default function MatchModal (props) {
   const toggleModal = () => {
     props.setModalVisible(!props.modalVisible)
+    props.refreshSuggestions()
   }
 
   console.log(props.imageID, 'modalaiohje')
@@ -15,6 +16,7 @@ export default function MatchModal (props) {
           transparent={true}
           animationType="slide"
           visible={props.modalVisible}
+          onRequestClose={() => props.refreshSuggestions()}
 
         >
           <View style={styles.modalView}>

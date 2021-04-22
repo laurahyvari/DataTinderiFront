@@ -16,32 +16,22 @@ export default function HomeScreen () {
 
   const onSwiped = async (index, type, vote) => {
     const programType = cards[index].partOfSeries === undefined ? 'movies' : 'series'
-    switch (type) {
-    case 'right':
-      vote = 1
-      await Api.addVote(cards[index]._id, programType, vote)
-      // setModalVisible(!modalVisible)
-      refreshSuggestions()
-      break
-    case 'left':
-      vote = -1
-      await Api.addVote(cards[index]._id, programType, vote)
-      refreshSuggestions()
-      break
+    try {
+      if (type === 'right' && cards[index].suggestionType === 'match') {
+        await Api.addVote(cards[index]._id, programType, vote)
+        setModalVisible(!modalVisible)
+      } else {
+        await Api.addVote(cards[index]._id, programType, vote)
+        refreshSuggestions()
+      }
+    } catch (err) {
+      console.log(err.message)
     }
   }
 
   const refreshSuggestions = async () => {
     const newSuggestions = await Api.getSuggestions(1)
 
-    if (newSuggestions.length > 0 && newSuggestions[0].suggestionType) {
-      if (newSuggestions[0].suggestionType === 'match') {
-        console.log('its a match')
-        setModalVisible(true)
-      } else {
-        console.log('random suggestion')
-      }
-    }
     setCards(newSuggestions)
     setLoading(false)
   }
