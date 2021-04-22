@@ -1,104 +1,71 @@
-
 import React, { useState, useEffect } from 'react'
 import Swiper from 'react-native-deck-swiper'
-import { Button, Dimensions, Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Api from '../utils/Api'
-import firebase from '../config/Firebase'
-const renderCard = (cardData, cardIndex) => {
-  // käytetään näitä arvoja jo ohjelman kuvaa haettaessa (alempana Image-komponentin source)
-  // pienemmän kuvan hakeminen on nopeampaa ja joka tapauksessa se olisi skaalattu mahtumaan kortille
-  const maxWidth = Math.round(Dimensions.get('window').width * 0.8)
-  const maxHeight = Math.round(Dimensions.get('window').height * 0.4)
-
-  return (
-    <View style={styles.card} key={cardData._id}>
-      <View style={styles.cardTextContainer}>
-        <Text style={styles.cardTitle}>{cardData.title.fi || 'Ohjelman nimi'}</Text>
-        <Text style={styles.cardDescription}>{cardData.description ? cardData.description.fi : ''}</Text>
-      </View>
-      {cardData.image && <Image
-        style={styles.cardImage}
-        source={{
-          uri: `https://images.cdn.yle.fi/image/upload/w_${maxWidth},h_${maxHeight},c_limit/${cardData.image.id}`
-        }}
-      />}
-    </View>
-  )
-}
+import Card from '../components/Card'
+import MatchModal from '../components/MatchModal'
 
 export default function HomeScreen () {
   const [cards, setCards] = useState([])
-
-  const [swipeComponent, setSwipeComponent] = useState(null)
+  const [isLoading, setLoading] = useState(true)
+  const [modalVisible, setModalVisible] = useState(false)
 
   useEffect(() => {
     refreshSuggestions()
   }, [])
 
-  useEffect(() => {
-    console.log(cards)
-  }, [cards])
-
-  const refreshSuggestions = async () => {
-    const token = await firebase.auth().currentUser.getIdToken()
-    const newSuggestions = await Api.getSuggestions(10, token)
-    console.log(token)
-    setCards(newSuggestions)
-  }
-
-  // TODO: korvataanko kaikkia swaippeja käsittelevä onSwiped -funktio mielummin erillisillä funktioilla?
-  // esim. onLike(), onDislike() jne?
-  // TODO: selvitettävä myös käytetäänkö edes kaikkia swipe -suuntia vai ei?
-  const onSwiped = async (index, type) => {
-    console.log(`on swiped ${type}`)
-    if (type === 'right') {
-      console.log(`LIKE: ${index}`)
-
-      // Tämä tilamuuttujaan ja jonkinlainen refresh -metodi pitämään tokenia yllä.
-      const token = await firebase.auth().currentUser.getIdToken()
-      // Ei bueno, mut riittää demoon.
-      await Api.addLike(cards[index].id, token)
+  const onSwiped = async (index, type, vote) => {
+    const programType = cards[index].partOfSeries === undefined ? 'movies' : 'series'
+    try {
+      if (type === 'right' && cards[index].suggestionType === 'match') {
+        await Api.addVote(cards[index]._id, programType, vote)
+        setModalVisible(!modalVisible)
+      } else {
+        await Api.addVote(cards[index]._id, programType, vote)
+        refreshSuggestions()
+      }
+    } catch (err) {
+      console.log(err.message)
     }
   }
 
-  const onSwipedAllCards = () => {
-    // TODO: halutaanko tehdä jotain kun kaikki haetut kortit on swaipattu? Esim. haetaan lisää ehdotuksia?
-  }
+  const refreshSuggestions = async () => {
+    const newSuggestions = await Api.getSuggestions(1)
 
-  const onSwipeBack = () => {
-    console.log('Back button pressed!')
-    swipeComponent.swipeBack()
-  }
-
-  const onTapCard = () => {
-    console.log('on card tapped')
-    swipeComponent.swipeLeft()
+    setCards(newSuggestions)
+    setLoading(false)
   }
 
   return (
     <View style={styles.container}>
-      {cards.length > 0
+      <MatchModal
+        program={cards}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        refreshSuggestions={refreshSuggestions}
+        imageID={ cards.length > 0 ? cards[0].image.id : null}
+      >
+      </MatchModal>
+
+      {cards.length > 0 && !isLoading
         ? (
           <Swiper
-            ref={swiper => { setSwipeComponent(swiper) }}
-            onSwiped={(index) => onSwiped(index, 'general')}
-            onSwipedLeft={(index) => onSwiped(index, 'left')}
-            onSwipedRight={(index) => onSwiped(index, 'right')}
-            onSwipedTop={(index) => onSwiped(index, 'top')}
-            onSwipedBottom={(index) => onSwiped(index, 'bottom')}
-            onTapCard={onTapCard}
+            backgroundColor={styles.container.backgroundColor}
+            onSwipedLeft={(index) => onSwiped(index, 'left', -1)}
+            onSwipedRight={(index) => onSwiped(index, 'right', 1)}
             cards={cards}
             cardVerticalMargin={80}
-            renderCard={renderCard}
-            onSwipedAll={onSwipedAllCards}
+            renderCard={(card) => {
+              return <Card cardData={card} />
+            }}
+            onSwipedAll={() => setLoading(true)}
             stackSize={3}
             stackSeparation={15}
             overlayLabels={overlayLabels}
             animateOverlayLabelsOpacity
             animateCardOpacity
-            swipeBackCard
+            verticalSwipe={false}
           >
-            <Button onPress={onSwipeBack} title='Swipe Back' />
           </Swiper>
         )
         : (
@@ -114,11 +81,7 @@ const labelStyle = {
   color: 'white',
   borderWidth: 1
 }
-const centerWrapperStyle = {
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center'
-}
+
 const rightWrapperStyle = {
   flexDirection: 'column',
   alignItems: 'flex-start',
@@ -135,10 +98,6 @@ const leftWrapperStyle = {
 }
 
 const overlayLabels = {
-  bottom: {
-    title: 'BLEAH',
-    style: { label: labelStyle, wrapper: centerWrapperStyle }
-  },
   left: {
     title: 'NOPE',
     style: { label: labelStyle, wrapper: leftWrapperStyle }
@@ -146,17 +105,17 @@ const overlayLabels = {
   right: {
     title: 'LIKE',
     style: { label: labelStyle, wrapper: rightWrapperStyle }
-  },
-  top: {
-    title: 'SUPER LIKE',
-    style: { label: labelStyle, wrapper: centerWrapperStyle }
   }
+
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#2176AE',
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden'
   },
   card: {
     flex: 1,

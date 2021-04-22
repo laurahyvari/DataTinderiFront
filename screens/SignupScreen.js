@@ -2,38 +2,32 @@ import * as React from 'react'
 import {
   View,
   StyleSheet,
-  TouchableOpacity,
-  Alert
-} from 'react-native'
-import { useState } from 'react'
-import firebase, { db } from '../config/Firebase'
-import { Text, Input } from 'react-native-elements'
+  TouchableOpacity
 
+} from 'react-native'
+import axios from 'axios'
+import { useState } from 'react'
+import { Text, Input } from 'react-native-elements'
 import { Ionicons, FontAwesome } from '@expo/vector-icons'
+
 export default function SignupScreen ({ navigation }) {
   const [firstname, setFirstName] = useState('')
   const [lastname, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
   const [toggle, setToggle] = useState(true)
 
-  async function handleSignUp () {
+  const handleSignUp = async () => {
+    // FIXME - tämä try catch ei koskaan palauta virhettä. Siirtyy aina login.
     try {
-      await firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then((userCredentials) => {
-          const uid = userCredentials.user.uid
-
-          db.ref('users').child(uid).child('details').set({
-            firstname: firstname,
-            lastname: lastname
-          })
-        })
-        .then(() => navigation.navigate('Login'))
+      await axios.post('https://data-tinder-back.herokuapp.com/register', {
+        email: email,
+        firstName: firstname,
+        lastName: lastname,
+        password: password
+      }).then(() => navigation.navigate('Login'))
     } catch (e) {
-      Alert.alert(e.message)
+      console.log(e.message)
     }
   }
 
@@ -45,7 +39,7 @@ export default function SignupScreen ({ navigation }) {
         containerStyle={styles.inputBox}
         value={firstname}
         onChangeText={(firstname) => setFirstName(firstname)}
-        placeholder="firstname"
+        placeholder="Firstname"
         placeholderTextColor="white"
         inputStyle={{ color: 'white' }}
         leftIcon={<Ionicons name="ios-person" size={24} color="white" />}
@@ -54,7 +48,7 @@ export default function SignupScreen ({ navigation }) {
         containerStyle={styles.inputBox}
         value={lastname}
         onChangeText={(lastname) => setLastName(lastname)}
-        placeholder="lastname"
+        placeholder="Lastname"
         placeholderTextColor="white"
         inputStyle={{ color: 'white' }}
         leftIcon={<Ionicons name="ios-person" size={24} color="white" />}
@@ -63,7 +57,7 @@ export default function SignupScreen ({ navigation }) {
         containerStyle={styles.inputBox}
         value={email}
         onChangeText={(email) => setEmail(email)}
-        placeholder="email"
+        placeholder="Email"
         placeholderTextColor="white"
         inputStyle={{ color: 'white' }}
         leftIcon={<Ionicons name="ios-mail" size={24} color="white" />}
@@ -73,7 +67,7 @@ export default function SignupScreen ({ navigation }) {
         value={password}
         inputStyle={{ color: 'white' }}
         onChangeText={(password) => setPassword(password)}
-        placeholder="password"
+        placeholder="Password"
         secureTextEntry={!!toggle}
         placeholderTextColor="white"
         leftIcon={<FontAwesome name="lock" size={24} color="white" />}
@@ -104,7 +98,7 @@ export default function SignupScreen ({ navigation }) {
         }
       />
       <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-        <Text style={styles.buttonText}>signup</Text>
+        <Text style={styles.buttonText}>Signup</Text>
       </TouchableOpacity>
     </View>
   )
@@ -113,7 +107,7 @@ export default function SignupScreen ({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#282D4F',
+    backgroundColor: '#2176AE',
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -141,8 +135,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingVertical: 5,
     alignItems: 'center',
-    backgroundColor: '#FF6C00',
-    borderColor: '#FF6C00',
+    backgroundColor: '#FAA00F',
+    borderColor: '#FAA00F',
     borderWidth: 1,
     borderRadius: 5,
     width: 200

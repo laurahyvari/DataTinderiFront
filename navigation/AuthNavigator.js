@@ -6,31 +6,19 @@ import firebase from '../config/Firebase'
 
 export default function AuthNavigator () {
   const [initializing, setInitializing] = useState(true)
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState()
 
-  function onAuthStateChanged (result) {
-    setUser(result)
+  function onAuthStateChanged (user) {
+    setUser(user)
     if (initializing) setInitializing(false)
   }
-  let isMounted = false
 
   useEffect(() => {
-    if (!isMounted) {
-      const authSubscriber = firebase
-        .auth()
-        .onAuthStateChanged(onAuthStateChanged)
-      isMounted = true
-      return authSubscriber
-    }
+    const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged)
+    return subscriber
+  }, [])
 
-    return () => {
-      isMounted = false
-    }
-  }, [isMounted])
-
-  if (initializing) {
-    return null
-  }
+  if (initializing) return null
 
   return user
     ? (
