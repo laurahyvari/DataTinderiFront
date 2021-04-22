@@ -33,7 +33,7 @@ export default function HomeScreen () {
 
   const refreshSuggestions = async () => {
     const newSuggestions = await Api.getSuggestions(1)
-    console.log(newSuggestions)
+
     if (newSuggestions.length > 0 && newSuggestions[0].suggestionType) {
       if (newSuggestions[0].suggestionType === 'match') {
         console.log('its a match')
@@ -53,6 +53,7 @@ export default function HomeScreen () {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         refreshSuggestions={refreshSuggestions}
+        imageID={ cards.length > 0 ? cards[0].image.id : null}
       >
       </MatchModal>
 
