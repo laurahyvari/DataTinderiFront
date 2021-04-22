@@ -20,7 +20,7 @@ export default function HomeScreen () {
     case 'right':
       vote = 1
       await Api.addVote(cards[index]._id, programType, vote)
-      setModalVisible(!modalVisible)
+      // setModalVisible(!modalVisible)
       refreshSuggestions()
       break
     case 'left':
@@ -33,6 +33,15 @@ export default function HomeScreen () {
 
   const refreshSuggestions = async () => {
     const newSuggestions = await Api.getSuggestions(1)
+    console.log(newSuggestions)
+    if (newSuggestions.length > 0 && newSuggestions[0].suggestionType) {
+      if (newSuggestions[0].suggestionType === 'match') {
+        console.log('its a match')
+        setModalVisible(true)
+      } else {
+        console.log('random suggestion')
+      }
+    }
     setCards(newSuggestions)
     setLoading(false)
   }
@@ -44,8 +53,9 @@ export default function HomeScreen () {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         refreshSuggestions={refreshSuggestions}
-       >
+      >
       </MatchModal>
+
       {cards.length > 0 && !isLoading
         ? (
           <Swiper
@@ -69,7 +79,7 @@ export default function HomeScreen () {
         )
         : (
           <></>
-        )} 
+        )}
     </View>
   )
 }
@@ -114,7 +124,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2176AE',
     justifyContent: 'center',
     alignItems: 'center',
-    overflow: 'hidden',
+    overflow: 'hidden'
   },
   card: {
     flex: 1,

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Modal, StyleSheet, Text, Pressable, View } from 'react-native'
 
-export default function MatchModal(props) {
-  const toggleModal= () => {
+export default function MatchModal (props) {
+  const toggleModal = () => {
     props.setModalVisible(!props.modalVisible)
   }
 
@@ -13,16 +13,42 @@ export default function MatchModal(props) {
         animationType="slide"
         visible={props.modalVisible}
       >
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>It's A Match!</Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={toggleModal}
-            >
-              <Text style={styles.textStyle}>Close</Text>
-            </Pressable>
-          </View>
+
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>It's A Match!</Text>
+          <Pressable
+            style={[styles.button, styles.buttonClose]}
+            onPress={toggleModal}
+          >
+            <Text style={styles.textStyle}>Close</Text>
+          </Pressable>
+        </View>
       </Modal>
+      {/*  <TouchableOpacity style={styles.button} activeOpacity={0.5}>
+
+        <Image
+          // eslint-disable-next-line no-useless-escape
+          source={require('C:\Users\laura\Ohjelmistoprojekti2\Frontti\DataTinderiFront\images\heart.png')}
+          style={styles.button}
+        />
+
+        <Text style={styles.TextStyle}>Favorite </Text>
+
+      </TouchableOpacity> */}
+
+      {/*  <TouchableOpacity style={styles.ImageIconStyle} activeOpacity={0.5}>
+
+          <Image
+            source={require('./images/shareicon.png')}
+            style={styles.ImageIconStyle}
+          />
+
+          <View style={styles.SeparatorLine} />
+
+          <Text style={styles.TextStyle}> Share </Text>
+
+        </TouchableOpacity> */}
+
     </View>
   )
 }
@@ -32,7 +58,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    marginTop: 22
   },
   modalView: {
     margin: '10%',

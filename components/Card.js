@@ -1,7 +1,7 @@
 import React from 'react'
 import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
 
-export default function card(props) {
+export default function card (props) {
   // käytetään näitä arvoja jo ohjelman kuvaa haettaessa (alempana Image-komponentin source)
   // pienemmän kuvan hakeminen on nopeampaa ja joka tapauksessa se olisi skaalattu mahtumaan kortille
   const maxWidth = Math.round(Dimensions.get('window').width * 0.8)
@@ -27,11 +27,16 @@ const styles = StyleSheet.create({
 
   card: {
     flex: 1,
-    borderRadius: 4,
+    borderRadius: 8,
     borderWidth: 2,
     borderColor: '#E8E8E8',
     justifyContent: 'center',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    margin: 10,
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    shadowColor: 'black',
+    shadowOffset: { height: 0, width: 2 }
   },
   cardTextContainer: {
     flex: 1,
@@ -48,4 +53,3 @@ const styles = StyleSheet.create({
   }
 
 })
-
