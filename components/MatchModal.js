@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, StyleSheet, Text, Pressable, View } from 'react-native'
+import { Modal, StyleSheet, Text, Pressable, View, Image, TouchableOpacity } from 'react-native'
 
 export default function MatchModal (props) {
   const toggleModal = () => {
@@ -7,53 +7,61 @@ export default function MatchModal (props) {
   }
 
   return (
-    <View style={styles.centeredView}>
-      <Modal
-        transparent={true}
-        animationType="slide"
-        visible={props.modalVisible}
-      >
+    <View style={styles.container}>
+      <View style={styles.centeredView}>
+        <Modal
+          transparent={true}
+          animationType="slide"
+          visible={props.modalVisible}
+        >
 
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>It's A Match!</Text>
-          <Pressable
-            style={[styles.button, styles.buttonClose]}
-            onPress={toggleModal}
-          >
-            <Text style={styles.textStyle}>Close</Text>
-          </Pressable>
-        </View>
-      </Modal>
-      {/*  <TouchableOpacity style={styles.button} activeOpacity={0.5}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>It's A Match!</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={toggleModal}
+            >
+              <Text style={styles.textStyle}>Close</Text>
+            </Pressable>
 
-        <Image
-          // eslint-disable-next-line no-useless-escape
-          source={require('C:\Users\laura\Ohjelmistoprojekti2\Frontti\DataTinderiFront\images\heart.png')}
-          style={styles.button}
-        />
+            <TouchableOpacity style={styles.button} activeOpacity={0.5}>
 
-        <Text style={styles.TextStyle}>Favorite </Text>
+              <Image
+                source={require('./images/heart.png')}
+                style={styles.heart}
+              />
 
-      </TouchableOpacity> */}
+              <Text style={styles.TextStyle}>Favorite </Text>
 
-      {/*  <TouchableOpacity style={styles.ImageIconStyle} activeOpacity={0.5}>
+            </TouchableOpacity>
 
-          <Image
-            source={require('./images/shareicon.png')}
-            style={styles.ImageIconStyle}
-          />
+            <TouchableOpacity style={styles.button} activeOpacity={0.5}>
 
-          <View style={styles.SeparatorLine} />
+              <Image
+                source={require('./images/share.png')}
+                style={styles.share}
+              />
 
-          <Text style={styles.TextStyle}> Share </Text>
+              <View style={styles.SeparatorLine} />
 
-        </TouchableOpacity> */}
+              <Text style={styles.TextStyle}> Share </Text>
 
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#2176AE',
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden'
+  },
   centeredView: {
     flex: 1,
     justifyContent: 'center',
@@ -79,13 +87,39 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  share: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    height: 20,
+    width: 20,
+    flex: 1,
+    flexDirection: 'row'
+  },
+  heart: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    height: 20,
+    width: 20,
+    flex: 1,
+    flexDirection: 'row'
   },
   buttonOpen: {
     backgroundColor: '#F194FF'
   },
   buttonClose: {
-    backgroundColor: '#2196F3'
+    backgroundColor: '#2196F3',
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    flex: 1,
+    flexDirection: 'row'
   },
   textStyle: {
     color: 'white',
