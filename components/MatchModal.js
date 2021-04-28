@@ -8,7 +8,6 @@ export default function MatchModal (props) {
     props.refreshSuggestions()
   }
 
-  console.log(props.imageID, 'modalaiohje')
   return (
     <View style={styles.container}>
       <View style={styles.centeredView}>

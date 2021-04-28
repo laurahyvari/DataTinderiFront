@@ -30,10 +30,14 @@ export default function HomeScreen () {
   }
 
   const refreshSuggestions = async () => {
-    const newSuggestions = await Api.getSuggestions(1)
+    try {
+      const newSuggestions = await Api.getSuggestions(1)
+      setCards(newSuggestions)
 
-    setCards(newSuggestions)
-    setLoading(false)
+      setLoading(false)
+    } catch (err) {
+      console.log(err.message)
+    }
   }
 
   return (

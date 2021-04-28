@@ -1,30 +1,35 @@
 import axios from 'axios'
-import firebase from '../config/Firebase'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-axios.defaults.baseURL = 'https://data-tinder-back.herokuapp.com'
-
-// axios.defaults.baseURL = "http://localhost:5000"
+axios.defaults.baseURL = 'https://datatinder-back.herokuapp.com'
+// axios.defaults.baseURL = 'http://localhost:5000'
 
 const getToken = async () => {
-  const token = firebase.auth().currentUser.getIdToken()
-
-  return token
+  try {
+    const value = await AsyncStorage.getItem('uuid')
+    return value
+  } catch (err) {
+    console.log(err.message)
+  }
 }
 
 const getSuggestions = async (count) => {
-  const token = await getToken()
-  const response = await axios.get(`/api/suggestions/${count}`, {
-    headers: {
-      Authorization: token
+  try {
+    const token = await getToken()
+    const response = await axios.get(`/api/suggestions/${count}`, {
+      headers: {
+        Authorization: token.toString()
+      }
     }
+    )
+    return response.data
+  } catch (err) {
+    console.log(err.message)
   }
-  )
-  return response.data
 }
 
 const addVote = async (Id, type, vote) => {
   const token = await getToken()
-
   const response = await axios.post('api/votes/', {
     programId: Id,
     type: type,
@@ -37,18 +42,6 @@ const addVote = async (Id, type, vote) => {
   )
   return response.data
 }
-
-/* const addLike = async (id) => {
-  const token = await getToken()
-  const response = await axios.post('api/list/', {
-    programId: id
-  }, {
-    headers: {
-      Authorization: token
-    }
-  })
-  return response.data
-} */
 
 const getLikes = async () => {
   const token = await getToken()

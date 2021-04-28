@@ -1,33 +1,37 @@
 import * as React from 'react'
-import { useState, useEffect, createContext } from 'react'
+import { Text, View } from 'react-native'
+import { useState, useEffect } from 'react'
 import LoggedInNav from './LoggedInNav'
-import LoggedOutNav from './LoggedOutNav'
-import firebase from '../config/Firebase'
+import { v4 as uuidv4 } from 'uuid'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function AuthNavigator () {
-  const [initializing, setInitializing] = useState(true)
-  const [user, setUser] = useState()
-
-  function onAuthStateChanged (user) {
-    setUser(user)
-    if (initializing) setInitializing(false)
-  }
+  const [token, setToken] = useState(null)
 
   useEffect(() => {
-    const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged)
-    return subscriber
+    getToken()
+    console.log(token)
   }, [])
 
-  if (initializing) return null
+  const getToken = async () => {
+    const localToken = await AsyncStorage.getItem('uuid')
 
-  return user
-    ? (
-      <AuthContext.Provider value={user}>
-        <LoggedInNav />
-      </AuthContext.Provider>
-    )
-    : (
-      <LoggedOutNav />
-    )
+    if (localToken === null) {
+      const uuid = uuidv4()
+      await AsyncStorage.setItem('uuid', uuid)
+      setToken(uuid)
+      console.log(token)
+    } else {
+      setToken(localToken)
+      console.log(token)
+    }
+  }
+
+  if (token === null) {
+    return <View><Text>Loading</Text></View>
+  }
+
+  return (
+    <LoggedInNav />
+  )
 }
-export const AuthContext = createContext(null)

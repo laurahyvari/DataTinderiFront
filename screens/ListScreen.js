@@ -7,7 +7,6 @@ export default function ListScreen ({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Nothing here</Text>
-
       <StatusBar style="auto" />
     </View>
   )

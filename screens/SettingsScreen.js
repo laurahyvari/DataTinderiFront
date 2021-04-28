@@ -1,20 +1,11 @@
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
-import { View, StyleSheet, Alert, Button } from 'react-native'
+import { Text, View, StyleSheet } from 'react-native'
 
-import firebase from '../config/Firebase'
 export default function SettingsScreen () {
-  async function logout () {
-    try {
-      await firebase.auth().signOut()
-    } catch (e) {
-      Alert.alert(e.message)
-    }
-  }
-
   return (
     <View style={styles.container}>
-      <Button onPress={() => logout()} title="Logout" />
+      <Text style={styles.text}>Nothing here</Text>
 
       <StatusBar style="auto" />
     </View>
@@ -40,6 +31,11 @@ const styles = StyleSheet.create({
     width: 200
   },
   buttonText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff'
+  },
+  text: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#fff'
