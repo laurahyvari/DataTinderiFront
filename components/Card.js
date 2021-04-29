@@ -7,13 +7,6 @@ export default function card (props) {
   const maxWidth = Math.round(Dimensions.get('window').width * 0.8)
   const maxHeight = Math.round(Dimensions.get('window').height * 0.4)
 
-  if (props.cardData === undefined) {
-    return (
-      <View>     
-      </View>
-    )
-  }
-
   function movieCard() {
     return (
       <View style={styles.card} key={props.cardData._id}>

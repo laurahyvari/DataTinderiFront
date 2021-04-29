@@ -8,6 +8,7 @@ import MatchModal from '../components/MatchModal'
 export default function HomeScreen () {
   const [card, setCard] = useState([])
   const [modalVisible, setModalVisible] = useState(false)
+  const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
     refreshSuggestions()
@@ -19,6 +20,7 @@ export default function HomeScreen () {
       if (type === 'right' && card.suggestionType === 'match') {
         await Api.addVote(card._id, programType, vote)
         setModalVisible(!modalVisible)
+        refreshSuggestions()
       } else {
         await Api.addVote(card._id, programType, vote)
         refreshSuggestions()
@@ -32,6 +34,7 @@ export default function HomeScreen () {
     try {
       const newSuggestions = await Api.getSuggestions()
       setCard(newSuggestions)
+      setLoading(false)
     } catch (err) {
       console.log(err.message)
     }
@@ -47,6 +50,8 @@ export default function HomeScreen () {
         imageID={ card.image === undefined ?  null : card.image.id}
       >
       </MatchModal>
+        {!isLoading
+          ? (
           <Swiper
             backgroundColor={styles.container.backgroundColor}
             onSwipedLeft={(index) => onSwiped(index, 'left', -1)}
@@ -56,6 +61,7 @@ export default function HomeScreen () {
             renderCard={(card) => {
               return <Card cardData={card} />
             }}
+            onSwipedAll={() => setLoading(true)}
             stackSize={3}
             stackSeparation={15}
             overlayLabels={overlayLabels}
@@ -64,6 +70,10 @@ export default function HomeScreen () {
             verticalSwipe={false}
           >
           </Swiper>
+          )
+          : (
+            <></>
+          )}
     </View>
   )
 }
