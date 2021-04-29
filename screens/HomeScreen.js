@@ -6,7 +6,7 @@ import Card from '../components/Card'
 import MatchModal from '../components/MatchModal'
 
 export default function HomeScreen () {
-  const [card, setCard] = useState([])
+  const [cards, setCards] = useState([])
   const [modalVisible, setModalVisible] = useState(false)
   const [isLoading, setLoading] = useState(true)
 
@@ -14,15 +14,14 @@ export default function HomeScreen () {
     refreshSuggestions()
   }, [])
 
-  const onSwiped = async (type, vote) => {
-    const programType = card.partOfSeries === undefined ? 'movies' : 'series'
+  const onSwiped = async (index, type, vote) => {
+    const programType = cards[index].partOfSeries === undefined ? 'movies' : 'series'
     try {
-      if (type === 'right' && card.suggestionType === 'match') {
-        await Api.addVote(card._id, programType, vote)
+      if (type === 'right' && cards[index].suggestionType === 'match') {
+        await Api.addVote(cards[index]._id, programType, vote)
         setModalVisible(!modalVisible)
-        refreshSuggestions()
       } else {
-        await Api.addVote(card._id, programType, vote)
+        await Api.addVote(cards[index]._id, programType, vote)
         refreshSuggestions()
       }
     } catch (err) {
@@ -32,8 +31,8 @@ export default function HomeScreen () {
 
   const refreshSuggestions = async () => {
     try {
-      const newSuggestions = await Api.getSuggestions()
-      setCard(newSuggestions)
+      const newSuggestions = await Api.getSuggestions(1)
+      setCards(newSuggestions)
       setLoading(false)
     } catch (err) {
       console.log(err.message)
@@ -43,11 +42,11 @@ export default function HomeScreen () {
   return (
     <View style={styles.container}>
       <MatchModal
-        program={card}
+        program={cards}
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         refreshSuggestions={refreshSuggestions}
-        imageID={ card.image === undefined ?  null : card.image.id}
+        imageID={ cards.length > 0 ? cards[0].image.id : null}
       >
       </MatchModal>
         {!isLoading
@@ -56,7 +55,7 @@ export default function HomeScreen () {
             backgroundColor={styles.container.backgroundColor}
             onSwipedLeft={(index) => onSwiped(index, 'left', -1)}
             onSwipedRight={(index) => onSwiped(index, 'right', 1)}
-            cards={card}
+            cards={cards}
             cardVerticalMargin={80}
             renderCard={(card) => {
               return <Card cardData={card} />
