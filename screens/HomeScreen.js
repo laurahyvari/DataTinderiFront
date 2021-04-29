@@ -6,22 +6,21 @@ import Card from '../components/Card'
 import MatchModal from '../components/MatchModal'
 
 export default function HomeScreen () {
-  const [cards, setCards] = useState([])
-  const [isLoading, setLoading] = useState(true)
+  const [card, setCard] = useState([])
   const [modalVisible, setModalVisible] = useState(false)
 
   useEffect(() => {
     refreshSuggestions()
   }, [])
 
-  const onSwiped = async (index, type, vote) => {
-    const programType = cards[index].partOfSeries === undefined ? 'movies' : 'series'
+  const onSwiped = async (type, vote) => {
+    const programType = card.partOfSeries === undefined ? 'movies' : 'series'
     try {
-      if (type === 'right' && cards[index].suggestionType === 'match') {
-        await Api.addVote(cards[index]._id, programType, vote)
+      if (type === 'right' && card.suggestionType === 'match') {
+        await Api.addVote(card._id, programType, vote)
         setModalVisible(!modalVisible)
       } else {
-        await Api.addVote(cards[index]._id, programType, vote)
+        await Api.addVote(card._id, programType, vote)
         refreshSuggestions()
       }
     } catch (err) {
@@ -31,10 +30,8 @@ export default function HomeScreen () {
 
   const refreshSuggestions = async () => {
     try {
-      const newSuggestions = await Api.getSuggestions(1)
-      setCards(newSuggestions)
-
-      setLoading(false)
+      const newSuggestions = await Api.getSuggestions()
+      setCard(newSuggestions)
     } catch (err) {
       console.log(err.message)
     }
@@ -43,26 +40,22 @@ export default function HomeScreen () {
   return (
     <View style={styles.container}>
       <MatchModal
-        program={cards}
+        program={card}
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         refreshSuggestions={refreshSuggestions}
-        imageID={ cards.length > 0 ? cards[0].image.id : null}
+        imageID={ card.image === undefined ?  null : card.image.id}
       >
       </MatchModal>
-
-      {cards.length > 0 && !isLoading
-        ? (
           <Swiper
             backgroundColor={styles.container.backgroundColor}
             onSwipedLeft={(index) => onSwiped(index, 'left', -1)}
             onSwipedRight={(index) => onSwiped(index, 'right', 1)}
-            cards={cards}
+            cards={card}
             cardVerticalMargin={80}
             renderCard={(card) => {
               return <Card cardData={card} />
             }}
-            onSwipedAll={() => setLoading(true)}
             stackSize={3}
             stackSeparation={15}
             overlayLabels={overlayLabels}
@@ -71,10 +64,6 @@ export default function HomeScreen () {
             verticalSwipe={false}
           >
           </Swiper>
-        )
-        : (
-          <></>
-        )}
     </View>
   )
 }

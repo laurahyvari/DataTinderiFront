@@ -1,11 +1,18 @@
 import React from 'react'
-import { Dimensions, Image, StyleSheet, Text, View, ScrollView } from 'react-native'
+import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
 
 export default function card (props) {
   // käytetään näitä arvoja jo ohjelman kuvaa haettaessa (alempana Image-komponentin source)
   // pienemmän kuvan hakeminen on nopeampaa ja joka tapauksessa se olisi skaalattu mahtumaan kortille
   const maxWidth = Math.round(Dimensions.get('window').width * 0.8)
   const maxHeight = Math.round(Dimensions.get('window').height * 0.4)
+
+  if (props.cardData === undefined) {
+    return (
+      <View>     
+      </View>
+    )
+  }
 
   function movieCard() {
     return (
