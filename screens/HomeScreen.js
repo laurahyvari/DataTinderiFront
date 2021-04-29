@@ -49,7 +49,7 @@ export default function HomeScreen () {
         imageID={ cards.length > 0 ? cards[0].image.id : null}
       >
       </MatchModal>
-        {!isLoading
+        {cards.length > 0 && !isLoading
           ? (
           <Swiper
             backgroundColor={styles.container.backgroundColor}
