@@ -27,7 +27,7 @@ export default function HomeScreen () {
     } catch (err) {
       console.log(err.message)
     }
-  }
+  } 
 
   const refreshSuggestions = async () => {
     try {
