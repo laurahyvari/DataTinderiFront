@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Swiper from 'react-native-deck-swiper'
-import { StyleSheet, View } from 'react-native'
+import { ActivityIndicator, Dimensions, StyleSheet, View } from 'react-native'
 import Api from '../utils/Api'
 import Card from '../components/Card'
 import MatchModal from '../components/MatchModal'
@@ -71,7 +71,9 @@ export default function HomeScreen () {
           </Swiper>
         )
         : (
-          <></>
+          <View style={[styles.container, styles.loader]}>
+            <ActivityIndicator color="#fff" size="large" />
+          </View>
         )}
     </View>
   )
@@ -150,5 +152,10 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: 'white',
     backgroundColor: 'transparent'
+  },
+  loader: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: Dimensions.get('window').height * 0.4
   }
 })
