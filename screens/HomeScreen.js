@@ -27,7 +27,7 @@ export default function HomeScreen () {
     } catch (err) {
       console.log(err.message)
     }
-  } 
+  }
 
   const refreshSuggestions = async () => {
     try {
@@ -49,8 +49,8 @@ export default function HomeScreen () {
         imageID={ cards.length > 0 ? cards[0].image.id : null}
       >
       </MatchModal>
-        {cards.length > 0 && !isLoading
-          ? (
+      {cards.length > 0 && !isLoading
+        ? (
           <Swiper
             backgroundColor={styles.container.backgroundColor}
             onSwipedLeft={(index) => onSwiped(index, 'left', -1)}
@@ -69,10 +69,10 @@ export default function HomeScreen () {
             verticalSwipe={false}
           >
           </Swiper>
-          )
-          : (
-            <></>
-          )}
+        )
+        : (
+          <></>
+        )}
     </View>
   )
 }
