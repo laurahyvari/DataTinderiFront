@@ -1,16 +1,11 @@
 import 'react-native-gesture-handler'
 import React from 'react'
-
 import { StyleSheet } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import Entypo from '@expo/vector-icons/Entypo'
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import HomeScreen from '../screens/HomeScreen'
 import ListScreen from '../screens/ListScreen'
-import PlayerScreen from '../screens/PlayerScreen'
-import SettingsScreen from '../screens/SettingsScreen'
 
 const Tab = createBottomTabNavigator()
 
@@ -37,25 +32,10 @@ export default function App () {
                   color={color}
                 />
               )
-            } else if (route.name === 'Player') {
-              return (
-                <Entypo
-                  name={'video'}
-                  size={size}
-                  color={color}
-                />
-              )
-            } else if (route.name === 'Settings') {
-              return (
-                <FontAwesome5
-                  name={focused ? 'user-alt' : 'user'}
-                  size={size}
-                  color={color}
-                />
-              )
             }
           }
-        })}
+        }
+        )}
         tabBarOptions={{
           activeTintColor: 'tomato',
           inactiveTintColor: 'gray',
@@ -65,10 +45,9 @@ export default function App () {
       >
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="List" component={ListScreen} />
-        <Tab.Screen name="Player" component={PlayerScreen} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
+
       </Tab.Navigator>
-    </NavigationContainer>
+    </NavigationContainer >
   )
 }
 

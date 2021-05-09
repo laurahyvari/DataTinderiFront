@@ -10,7 +10,7 @@ export default function AuthNavigator () {
 
   useEffect(() => {
     getToken()
-    console.log(token)
+    console.log(token, 'useEffect')
   }, [])
 
   const getToken = async () => {

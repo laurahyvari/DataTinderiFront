@@ -1,7 +1,7 @@
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-axios.defaults.baseURL = 'https://datatinder-back.herokuapp.com'
+axios.defaults.baseURL = 'https://neksu.vps.webdock.io'
 // axios.defaults.baseURL = 'http://localhost:5000'
 
 const getToken = async () => {
@@ -54,4 +54,14 @@ const getLikes = async () => {
   return response.data
 }
 
-export default { getSuggestions, addVote, getLikes }
+const getPopularPrograms = async () => {
+  const token = await getToken()
+  const response = await axios.get('api/popular', {
+    headers: {
+      Authorization: token
+    }
+  }
+  )
+  return response.data
+}
+export default { getSuggestions, addVote, getLikes, getPopularPrograms }
