@@ -7,8 +7,8 @@ import MatchModal from '../components/MatchModal'
 
 export default function HomeScreen () {
   const [cards, setCards] = useState([])
-  const [isLoading, setLoading] = useState(true)
   const [modalVisible, setModalVisible] = useState(false)
+  const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
     refreshSuggestions()
@@ -27,13 +27,12 @@ export default function HomeScreen () {
     } catch (err) {
       console.log(err.message)
     }
-  }
+  } 
 
   const refreshSuggestions = async () => {
     try {
       const newSuggestions = await Api.getSuggestions(1)
       setCards(newSuggestions)
-
       setLoading(false)
     } catch (err) {
       console.log(err.message)
@@ -50,9 +49,8 @@ export default function HomeScreen () {
         imageID={ cards.length > 0 ? cards[0].image.id : null}
       >
       </MatchModal>
-
-      {cards.length > 0 && !isLoading
-        ? (
+        {cards.length > 0 && !isLoading
+          ? (
           <Swiper
             backgroundColor={styles.container.backgroundColor}
             onSwipedLeft={(index) => onSwiped(index, 'left', -1)}
@@ -71,10 +69,10 @@ export default function HomeScreen () {
             verticalSwipe={false}
           >
           </Swiper>
-        )
-        : (
-          <></>
-        )}
+          )
+          : (
+            <></>
+          )}
     </View>
   )
 }

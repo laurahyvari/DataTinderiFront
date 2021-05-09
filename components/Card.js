@@ -7,49 +7,104 @@ export default function card (props) {
   const maxWidth = Math.round(Dimensions.get('window').width * 0.8)
   const maxHeight = Math.round(Dimensions.get('window').height * 0.4)
 
-  return (
-    <View style={styles.card} key={props.cardData._id}>
-      <View style={styles.cardTextContainer}>
-        <Text style={styles.cardTitle}>{props.cardData.title.fi || 'Ohjelman nimi'}</Text>
-        <Text style={styles.cardDescription}>{props.cardData.description ? props.cardData.description.fi : ''}</Text>
+  function movieCard() {
+    return (
+      <View style={styles.card} key={props.cardData._id}>
+        <View style={styles.cardTextContainer}>
+          <Text style={styles.cardTitle}>{props.cardData.title.fi}</Text>
+          <Text style={styles.punchLine}>{props.cardData.shortDescription ? props.cardData.shortDescription.fi : ''}</Text>
+          <Text style={styles.cardDescription}>{props.cardData.description ? props.cardData.description.fi : ''}</Text>
+          <View style={styles.age}>
+            <Text>{props.cardData.contentRating.ageRestriction === 0 || undefined
+              ? props.cardData.contentRating.title.fi : `Ikäraja: ${props.cardData.contentRating.ageRestriction}+`}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.cardImage}>
+          {props.cardData.image && 
+          <Image
+            style={styles.image}
+            source={{
+              uri: `https://images.cdn.yle.fi/image/upload/w_${maxWidth},h_${maxHeight},c_limit/${props.cardData.image.id}`
+            }}
+          />}
+        </View>
       </View>
-      {props.cardData.image && <Image
-        style={styles.cardImage}
-        source={{
-          uri: `https://images.cdn.yle.fi/image/upload/w_${maxWidth},h_${maxHeight},c_limit/${props.cardData.image.id}`
-        }}
-      />}
+    )
+  }
+
+  function seriesCard() {
+    return (
+      <View style={styles.card} key={props.cardData._id}>
+        <View style={styles.cardTextContainer}>
+          <Text style={styles.cardTitle}>{props.cardData.partOfSeries.title.fi}</Text>
+          <Text style={styles.punchLine}>{props.cardData.partOfSeries.shortDescription ? props.cardData.partOfSeries.shortDescription.fi : ''}</Text>
+          <Text style={styles.cardDescription}>{props.cardData.partOfSeries.description ? props.cardData.partOfSeries.description.fi : ''}</Text>
+          <View style={styles.age}>
+            <Text>{props.cardData.contentRating.ageRestriction === 0 
+              ? props.cardData.contentRating.title.fi : `Ikäraja: ${props.cardData.contentRating.ageRestriction}+`}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.cardImage}>
+          {props.cardData.partOfSeries.image && 
+          <Image
+            style={styles.image}
+            source={{
+              uri: `https://images.cdn.yle.fi/image/upload/w_${maxWidth},h_${maxHeight},c_limit/${props.cardData.partOfSeries.image.id}`
+            }}
+          />}
+        </View>
+      </View>
+    )
+  }
+
+  return (
+    <View style={styles.container}>
+      {props.cardData.partOfSeries === undefined ? movieCard() : seriesCard()}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-
+  container: {
+    flex:1
+  },
+  punchLine: {
+    fontSize: 18,
+  },  
   card: {
     flex: 1,
     borderRadius: 8,
     borderWidth: 2,
     borderColor: '#E8E8E8',
-    justifyContent: 'center',
     backgroundColor: 'white',
-    margin: 10,
     shadowOpacity: 0.05,
     shadowRadius: 10,
     shadowColor: 'black',
     shadowOffset: { height: 0, width: 2 }
   },
   cardTextContainer: {
-    flex: 1,
-    justifyContent: 'flex-end'
+    marginLeft: '2%',
+    marginRight: '2%',
+    height: '60%',
   },
   cardTitle: {
     fontSize: 28,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
-  cardText: {},
+  cardDescription: {
+  },
   cardImage: {
-    resizeMode: 'contain',
-    flex: 2
+    height: '40%'
+  },
+  age: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginBottom: '5%'
+  },
+  image: {
+    resizeMode: 'cover',
+    flex: 1
   }
-
 })
