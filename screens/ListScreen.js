@@ -11,6 +11,7 @@ import {
 } from 'react-native'
 import Api from '../utils/Api'
 import { Text, Card } from 'react-native-elements'
+import { useIsFocused } from "@react-navigation/native";
 const maxWidth = Math.round(Dimensions.get('window').width * 0.8)
 const maxHeight = Math.round(Dimensions.get('window').height * 0.4)
 
@@ -19,6 +20,7 @@ export default function ListScreen({ navigation }) {
   const [kayttajaSuositukset, setKayttajaSuositukset] = useState([])
   const [loadingSuositut, setLoadingSuositut] = useState(true)
   const [loadingKayttajan, setLoadingKayttajan] = useState(true)
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     const haeSuositut = async () => {
@@ -27,7 +29,8 @@ export default function ListScreen({ navigation }) {
       setLoadingSuositut(false)
     }
     haeSuositut()
-  }, [])
+    console.log("Moi")
+  }, [isFocused])
 
   return (
     <View style={styles.container}>
