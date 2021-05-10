@@ -43,7 +43,7 @@ export default function ListScreen({ navigation }) {
               : suositut.map((suosittu) => {
                 return (
                   <TouchableOpacity onPress={() =>
-                    console.log(suosittu.image.id)
+                    navigation.navigate('Player', { program: suosittu })
                   }
                     key={suosittu._id}>
                     <Card containerStyle={styles.cards}>

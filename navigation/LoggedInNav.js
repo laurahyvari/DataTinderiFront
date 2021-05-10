@@ -6,7 +6,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import HomeScreen from '../screens/HomeScreen'
 import ListScreen from '../screens/ListScreen'
-
+import PlayerScreen from '../screens/PlayerScreen'
+import Entypo from '@expo/vector-icons/Entypo'
 const Tab = createBottomTabNavigator()
 
 export default function App () {
@@ -32,6 +33,14 @@ export default function App () {
                   color={color}
                 />
               )
+            } else if (route.name === 'Player') {
+              return (
+                <Entypo
+                name={'video'}
+                size={size}
+                color={color}
+              />
+              )
             }
           }
         }
@@ -45,7 +54,6 @@ export default function App () {
       >
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="List" component={ListScreen} />
-
       </Tab.Navigator>
     </NavigationContainer >
   )
