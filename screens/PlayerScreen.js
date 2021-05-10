@@ -1,17 +1,12 @@
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { Text, View, StyleSheet } from 'react-native'
-import { WebView } from 'react-native-webview'
+
 export default function PlayerScreen ({ route, navigation }) {
   const program = route.params
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Nothing here</Text>
-      <WebView
-        source={{ uri: `https://areena.yle.fi/${program._id}` }}
-        style={{ marginTop: 20 }}
-      />
-      <StatusBar style="auto" />
     </View>
   )
 }
