@@ -1,17 +1,62 @@
 
 import { StatusBar } from 'expo-status-bar'
-import React from 'react'
-import { Button } from 'react-native'
-import { StyleSheet, View, Text } from 'react-native'
+import React, { useState } from 'react'
+import { Button, StyleSheet, View, Text } from 'react-native'
 
 export default function WelcomeScreen ({ onHideIntro }) {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Welcome</Text>
-      <Button title='OK' onPress={onHideIntro} />
-      <StatusBar style="auto" />
-    </View>
-  )
+  const [index, setIndex] = useState(0)
+
+  const onNextPress = () => {
+    setIndex(index + 1)
+  }
+
+  const onBackPress = () => {
+    if (index >= 1) {
+      setIndex(index - 1)
+    }
+  }
+
+  if (index === 0) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Tervetuloa!</Text>
+        <Text style={styles.text}>Tämän sovelluksen avulla voit nopeasti ja vaivattomasti tutustua Yle Areenan ohjelmatarjontaan.</Text>
+        <Text style={styles.text}>Sovellus tallentaa tietoja siitä, minkälaisista ohjelmista pidät, ja suosittelee tykkäyksiesi perusteella juuri sinulle sopivaa sisältöä.</Text>
+        <Button title='Jatka' onPress={onNextPress} />
+        <StatusBar style="auto" />
+      </View>
+    )
+  } else if (index === 1) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.text}>Kun törmäät kiinnostavalta vaikuttavaan sisältöön, pyyhkäise se <Text style={styles.bold}>oikealle</Text> tallentaaksesi tykkäyksesi.</Text>
+        <View style={styles.buttonContainer}>
+          <View style={styles.button}>
+            <Button title='Edellinen' onPress={onBackPress} />
+          </View>
+          <View style={styles.button}>
+            <Button title='Jatka' onPress={onNextPress} />
+          </View>
+        </View>
+        <StatusBar style="auto" />
+      </View>
+    )
+  } else if (index === 2) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.text}>Jos taas ehdotettu sisältö ei kiinnosta, pyyhkäise se <Text style={styles.bold}>vasemmalle</Text>.</Text>
+        <View style={styles.buttonContainer}>
+          <View style={styles.button}>
+            <Button title='Edellinen' onPress={onBackPress} />
+          </View>
+          <View style={styles.button}>
+            <Button title='Jatka' onPress={onNextPress} />
+          </View>
+        </View>
+        <StatusBar style="auto" />
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -21,24 +66,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  button: {
-    marginTop: 30,
-    marginBottom: 20,
-    paddingVertical: 5,
-    alignItems: 'center',
-    backgroundColor: '#FF6C00',
-    borderColor: '#FF6C00',
-    borderWidth: 1,
-    borderRadius: 5,
-    width: 200
+  buttonContainer: {
+    flexDirection: 'row'
   },
-  buttonText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#fff'
+  button: {
+    marginHorizontal: 36
   },
   text: {
-    fontSize: 20,
+    margin: 16,
+    fontSize: 18,
+    textAlign: 'center',
+    color: '#fff'
+  },
+  bold: {
+    fontWeight: 'bold',
+    color: '#8ff0ff'
+  },
+  title: {
+    fontSize: 36,
     fontWeight: 'bold',
     color: '#fff'
   }
