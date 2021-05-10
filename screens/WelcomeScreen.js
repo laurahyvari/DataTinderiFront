@@ -50,6 +50,21 @@ export default function WelcomeScreen ({ onHideIntro }) {
             <Button title='Edellinen' onPress={onBackPress} />
           </View>
           <View style={styles.button}>
+            <Button title='Jatka' onPress={onNextPress} />
+          </View>
+        </View>
+        <StatusBar style="auto" />
+      </View>
+    )
+  } else if (index === 3) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.text}>Sitä mukaa kun jatkat ohjelmien pyyhkäisyjä, sovellus muodostaa listaa sisällöstä josta voisit olla kiinnostunut. Voit käydä tarkastelemassa omia ohjelmasuosituksiasi suositusvälilehdeltä.</Text>
+        <View style={styles.buttonContainer}>
+          <View style={styles.button}>
+            <Button title='Edellinen' onPress={onBackPress} />
+          </View>
+          <View style={styles.button}>
             <Button title='Aloita selailu' onPress={onHideIntro} />
           </View>
         </View>
