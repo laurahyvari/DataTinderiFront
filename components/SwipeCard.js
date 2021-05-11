@@ -15,9 +15,9 @@ export default function SwipeCard (props) {
           <Text style={styles.punchLine}>{props.cardData.shortDescription ? props.cardData.shortDescription.fi : ''}</Text>
           <Text style={styles.cardDescription}>{props.cardData.description ? props.cardData.description.fi : ''}</Text>
           <View style={styles.age}>
-            <Text>{props.cardData.contentRating.ageRestriction === 0 || undefined
-              ? props.cardData.contentRating.title.fi
-              : `Ikäraja: ${props.cardData.contentRating.ageRestriction}+`}
+          <Text>{props.cardData.contentRating.ageRestriction 
+              ? `Ikäraja: ${props.cardData.contentRating.ageRestriction} +`
+              : 'Ikäraja: Ei tiedossa'}
             </Text>
           </View>
         </View>
@@ -42,9 +42,9 @@ export default function SwipeCard (props) {
           <Text style={styles.punchLine}>{props.cardData.partOfSeries.shortDescription ? props.cardData.partOfSeries.shortDescription.fi : ''}</Text>
           <Text style={styles.cardDescription}>{props.cardData.partOfSeries.description ? props.cardData.partOfSeries.description.fi : ''}</Text>
           <View style={styles.age}>
-            <Text>{props.cardData.contentRating.ageRestriction === 0
-              ? props.cardData.contentRating.title.fi
-              : `Ikäraja: ${props.cardData.contentRating.ageRestriction}+`}
+            <Text>{props.cardData.contentRating.ageRestriction 
+              ? `Ikäraja: ${props.cardData.contentRating.ageRestriction} +`
+              : 'Ikäraja: Ei tiedossa'}
             </Text>
           </View>
         </View>
