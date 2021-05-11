@@ -6,14 +6,24 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import HomeScreen from '../screens/HomeScreen'
 import ListScreen from '../screens/ListScreen'
-import PlayerScreen from '../screens/PlayerScreen'
-import Entypo from '@expo/vector-icons/Entypo'
+import ProgramDetails from '../screens/ProgramDetails'
+import { createStackNavigator } from "@react-navigation/stack"
+
 const Tab = createBottomTabNavigator()
+const Stack = createStackNavigator()
 
-export default function App () {
-  return (
+export default function App() {
 
-    <NavigationContainer>
+  const ListScreenStack = () => {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="Suositukset" component={ListScreen} />
+        <Stack.Screen name="Ohjelmatiedot" component={ProgramDetails} />
+      </Stack.Navigator>
+    )
+  }
+  const TabComponent = () => {
+    return (
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -25,21 +35,13 @@ export default function App () {
                   color={color}
                 />
               )
-            } else if (route.name === 'List') {
+            } else if (route.name === 'Suositukset') {
               return (
                 <Ionicons
                   name={'list'}
                   size={size}
                   color={color}
                 />
-              )
-            } else if (route.name === 'Player') {
-              return (
-                <Entypo
-                name={'video'}
-                size={size}
-                color={color}
-              />
               )
             }
           }
@@ -53,8 +55,16 @@ export default function App () {
         sceneContainerStyle={styles.container}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="List" component={ListScreen} />
+        <Tab.Screen name="Suositukset" component={ListScreenStack} />
       </Tab.Navigator>
+    )
+  }
+
+
+  return (
+
+    <NavigationContainer>
+      <TabComponent />
     </NavigationContainer >
   )
 }

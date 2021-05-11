@@ -6,30 +6,35 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  Alert,
   Dimensions
 } from 'react-native'
 import Api from '../utils/Api'
 import { Text, Card } from 'react-native-elements'
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused } from '@react-navigation/native'
 const maxWidth = Math.round(Dimensions.get('window').width * 0.8)
-const maxHeight = Math.round(Dimensions.get('window').height * 0.4)
+const maxHeight = Math.round(Dimensions.get('window').height * 0.6)
 
-export default function ListScreen({ navigation }) {
+export default function ListScreen ({ navigation }) {
   const [suositut, setSuositut] = useState([])
   const [kayttajaSuositukset, setKayttajaSuositukset] = useState([])
   const [loadingSuositut, setLoadingSuositut] = useState(true)
   const [loadingKayttajan, setLoadingKayttajan] = useState(true)
-  const isFocused = useIsFocused();
+  const isFocused = useIsFocused()
 
   useEffect(() => {
     const haeSuositut = async () => {
       const haetut = await Api.getPopularPrograms()
-      setSuositut(haetut);
+      setSuositut(haetut)
       setLoadingSuositut(false)
     }
+
+    const haeSuositukset = async () => {
+      const haetutSuositukset = await Api.getRecommendations()
+      setKayttajaSuositukset(haetutSuositukset)
+      setLoadingKayttajan(false)
+    }
     haeSuositut()
-    console.log("Moi")
+    haeSuositukset()
   }, [isFocused])
 
   return (
@@ -43,9 +48,10 @@ export default function ListScreen({ navigation }) {
               : suositut.map((suosittu) => {
                 return (
                   <TouchableOpacity onPress={() =>
-                    navigation.navigate('Player', { program: suosittu })
+                    navigation.navigate("Ohjelmatiedot", suosittu)
+
                   }
-                    key={suosittu._id}>
+                  key={suosittu._id}>
                     <Card containerStyle={styles.cards}>
                       <View key={suosittu._id}>
                         {suosittu.image && <Image
@@ -64,24 +70,24 @@ export default function ListScreen({ navigation }) {
           </ScrollView>
           <Text style={styles.header}>Saatat pitää näistä</Text>
           <ScrollView horizontal={true}>
-          
-            {loadingSuositut
+
+            {loadingKayttajan
               ? null
-              : suositut.map((suosittu) => {
+              : kayttajaSuositukset.map((kayttajaSuositus) => {
                 return (
                   <TouchableOpacity onPress={() =>
-                    console.log(suosittu.image.id)
+                    console.log(kayttajaSuositus.image.id)
                   }
-                    key={suosittu._id}>
+                  key={kayttajaSuositus._id}>
                     <Card containerStyle={styles.cards}>
-                      <View key={suosittu._id}>
-                        {suosittu.image && <Image
+                      <View key={kayttajaSuositus._id}>
+                        {kayttajaSuositus.image && <Image
                           style={styles.cardImage}
                           source={{
-                            uri: `https://images.cdn.yle.fi/image/upload/w_${maxWidth},h_${maxHeight},c_limit/${suosittu.image.id}`
+                            uri: `https://images.cdn.yle.fi/image/upload/w_${maxWidth},h_${maxHeight},c_limit/${kayttajaSuositus.image.id}`
                           }}
                         />}
-                        <Text style={styles.title}>{suosittu.title.fi || 'Ohjelman nimi'}</Text>
+                        <Text style={styles.title}>{kayttajaSuositus.title.fi || 'Ohjelman nimi'}</Text>
 
                       </View>
                     </Card>
@@ -104,18 +110,18 @@ const styles = StyleSheet.create({
 
   header: {
     fontSize: 24,
-    color: "white",
-    fontWeight: "bold",
-    marginTop: 20,
+    color: 'white',
+    fontWeight: 'bold',
+    marginTop: 20
   },
 
   cards: {
     borderWidth: 0,
-    backgroundColor: "black",
+    backgroundColor: '#2176AE'
   },
 
   sliderContainer: {
-    marginTop: 50,
+    marginTop: 50
   },
   button: {
     marginTop: 30,
@@ -141,17 +147,16 @@ const styles = StyleSheet.create({
   },
 
   cardImage: {
-    width: 300,
-    height: 300,
-    backgroundColor: "#000"
+    width: 200,
+    height: 200,
+    backgroundColor: '#000'
   },
 
   title: {
-    fontSize: 24,
-    justifyContent: "center",
-    backgroundColor: "#000",
-    color: "white",
-    alignSelf: "center",
-  },
+    fontSize: 14,
+    justifyContent: 'center',
+    color: 'white',
+    alignSelf: 'center'
+  }
 
 })

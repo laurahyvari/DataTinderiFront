@@ -64,4 +64,15 @@ const getPopularPrograms = async () => {
   )
   return response.data
 }
-export default { getSuggestions, addVote, getLikes, getPopularPrograms }
+
+const getRecommendations = async () => {
+  const token = await getToken()
+  const response = await axios.get('api/recommendations', {
+    headers: {
+      Authorization: token
+    }
+  }
+  )
+  return response.data
+}
+export default { getSuggestions, addVote, getLikes, getPopularPrograms, getRecommendations }

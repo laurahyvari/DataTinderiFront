@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Swiper from 'react-native-deck-swiper'
 import { ActivityIndicator, Dimensions, StyleSheet, View } from 'react-native'
 import Api from '../utils/Api'
-import Card from '../components/Card'
+import SwipeCard from '../components/SwipeCard'
 import MatchModal from '../components/MatchModal'
 
 export default function HomeScreen () {
@@ -58,7 +58,7 @@ export default function HomeScreen () {
             cards={cards}
             cardVerticalMargin={80}
             renderCard={(card) => {
-              return <Card cardData={card} />
+              return <SwipeCard cardData={card} />
             }}
             onSwipedAll={() => setLoading(true)}
             stackSize={3}

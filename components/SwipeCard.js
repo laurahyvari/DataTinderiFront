@@ -1,13 +1,13 @@
 import React from 'react'
 import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
 
-export default function card (props) {
+export default function SwipeCard (props) {
   // käytetään näitä arvoja jo ohjelman kuvaa haettaessa (alempana Image-komponentin source)
   // pienemmän kuvan hakeminen on nopeampaa ja joka tapauksessa se olisi skaalattu mahtumaan kortille
   const maxWidth = Math.round(Dimensions.get('window').width * 0.8)
   const maxHeight = Math.round(Dimensions.get('window').height * 0.4)
 
-  function movieCard() {
+  function movieCard () {
     return (
       <View style={styles.card} key={props.cardData._id}>
         <View style={styles.cardTextContainer}>
@@ -16,12 +16,13 @@ export default function card (props) {
           <Text style={styles.cardDescription}>{props.cardData.description ? props.cardData.description.fi : ''}</Text>
           <View style={styles.age}>
             <Text>{props.cardData.contentRating.ageRestriction === 0 || undefined
-              ? props.cardData.contentRating.title.fi : `Ikäraja: ${props.cardData.contentRating.ageRestriction}+`}
+              ? props.cardData.contentRating.title.fi
+              : `Ikäraja: ${props.cardData.contentRating.ageRestriction}+`}
             </Text>
           </View>
         </View>
         <View style={styles.cardImage}>
-          {props.cardData.image && 
+          {props.cardData.image &&
           <Image
             style={styles.image}
             source={{
@@ -33,7 +34,7 @@ export default function card (props) {
     )
   }
 
-  function seriesCard() {
+  function seriesCard () {
     return (
       <View style={styles.card} key={props.cardData._id}>
         <View style={styles.cardTextContainer}>
@@ -41,13 +42,14 @@ export default function card (props) {
           <Text style={styles.punchLine}>{props.cardData.partOfSeries.shortDescription ? props.cardData.partOfSeries.shortDescription.fi : ''}</Text>
           <Text style={styles.cardDescription}>{props.cardData.partOfSeries.description ? props.cardData.partOfSeries.description.fi : ''}</Text>
           <View style={styles.age}>
-            <Text>{props.cardData.contentRating.ageRestriction === 0 
-              ? props.cardData.contentRating.title.fi : `Ikäraja: ${props.cardData.contentRating.ageRestriction}+`}
+            <Text>{props.cardData.contentRating.ageRestriction === 0
+              ? props.cardData.contentRating.title.fi
+              : `Ikäraja: ${props.cardData.contentRating.ageRestriction}+`}
             </Text>
           </View>
         </View>
         <View style={styles.cardImage}>
-          {props.cardData.partOfSeries.image && 
+          {props.cardData.partOfSeries.image &&
           <Image
             style={styles.image}
             source={{
@@ -68,11 +70,11 @@ export default function card (props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1
+    flex: 1
   },
   punchLine: {
-    fontSize: 18,
-  },  
+    fontSize: 18
+  },
   card: {
     flex: 1,
     borderRadius: 8,
@@ -87,11 +89,11 @@ const styles = StyleSheet.create({
   cardTextContainer: {
     marginLeft: '2%',
     marginRight: '2%',
-    height: '60%',
+    height: '60%'
   },
   cardTitle: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   cardDescription: {
   },

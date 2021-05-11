@@ -19,7 +19,7 @@ export default function MatchModal (props) {
 
         >
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>It's A Match!</Text>
+            <Text style={styles.modalText}>It&apos;s A Match!</Text>
             {props.imageID && <Image
               style={styles.cardImage}
               source={{
