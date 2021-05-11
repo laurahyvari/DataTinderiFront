@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-
 import { Dimensions, ImageBackground, Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Api from '../utils/Api'

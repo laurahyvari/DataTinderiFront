@@ -77,7 +77,7 @@ export default function ListScreen ({ navigation }) {
               : kayttajaSuositukset.map((kayttajaSuositus) => {
                 return (
                   <TouchableOpacity onPress={() =>
-                    console.log(kayttajaSuositus.image.id)
+                    navigation.navigate('Ohjelmatiedot', kayttajaSuositus)
                   }
                   key={kayttajaSuositus._id}>
                     <Card containerStyle={styles.cards}>
