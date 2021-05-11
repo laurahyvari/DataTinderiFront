@@ -7,13 +7,12 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import HomeScreen from '../screens/HomeScreen'
 import ListScreen from '../screens/ListScreen'
 import ProgramDetails from '../screens/ProgramDetails'
-import { createStackNavigator } from "@react-navigation/stack"
+import { createStackNavigator } from '@react-navigation/stack'
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
 
-export default function App() {
-
+export default function App () {
   const ListScreenStack = () => {
     return (
       <Stack.Navigator>
@@ -59,7 +58,6 @@ export default function App() {
       </Tab.Navigator>
     )
   }
-
 
   return (
 

@@ -47,21 +47,21 @@ export default function ListScreen ({ navigation }) {
               : suositut.map((suosittu) => {
                 return (
                   <TouchableOpacity onPress={() =>
-                    navigation.navigate("Ohjelmatiedot", suosittu)
+                    navigation.navigate('Ohjelmatiedot', suosittu)
 
                   }
                   key={suosittu._id}>
                     <Card containerStyle={styles.cards}>
                       <View
-                        style={styles.popularCard} 
+                        style={styles.popularCard}
                         key={suosittu._id}>
                         {suosittu.image && <ImageBackground
                           style={styles.cardImage}
                           source={{
                             uri: `https://images.cdn.yle.fi/image/upload/w_${maxWidth},h_${maxHeight},c_limit/${suosittu.image.id}`
                           }}>
-                            <Text style={styles.title}>{suosittu.title.fi || 'Ohjelman nimi'}</Text>
-                          </ImageBackground>}
+                          <Text style={styles.title}>{suosittu.title.fi || 'Ohjelman nimi'}</Text>
+                        </ImageBackground>}
                       </View>
                     </Card>
                   </TouchableOpacity>
@@ -69,7 +69,7 @@ export default function ListScreen ({ navigation }) {
               })}
           </ScrollView>
           <Text style={styles.header}>Saatat pitää näistä</Text>
-          <ScrollView 
+          <ScrollView
             style={styles.scrollContainer}
             horizontal={true}>
             {loadingKayttajan
@@ -81,7 +81,7 @@ export default function ListScreen ({ navigation }) {
                   }
                   key={kayttajaSuositus._id}>
                     <Card containerStyle={styles.cards}>
-                      <View 
+                      <View
                         style={styles.popularCard}
                         key={kayttajaSuositus._id}>
                         {kayttajaSuositus.image && <ImageBackground
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2176AE',
-    padding: 5,
+    padding: 5
   },
   header: {
     fontSize: 24,
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     marginTop: 20
   },
   cards: {
-    margin:0,
+    margin: 0,
     padding: 0,
     borderWidth: 1,
     borderColor: '#000000a0',
@@ -124,21 +124,21 @@ const styles = StyleSheet.create({
   },
   popularCard: {
     height: maxWidth * 0.6,
-    width: maxWidth * 0.6,
+    width: maxWidth * 0.6
   },
   sliderContainer: {
     marginTop: 10
   },
   cardImage: {
     flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center"
+    resizeMode: 'cover',
+    justifyContent: 'center'
   },
   title: {
-    color: "white",
+    color: 'white',
     fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center",
-    backgroundColor: "#000000a0"
-  },
+    fontWeight: 'bold',
+    textAlign: 'center',
+    backgroundColor: '#000000a0'
+  }
 })

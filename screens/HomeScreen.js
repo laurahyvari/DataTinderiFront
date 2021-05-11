@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import Swiper from 'react-native-deck-swiper'
+import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, Dimensions, StyleSheet, View } from 'react-native'
-import Api from '../utils/Api'
+import Swiper from 'react-native-deck-swiper'
 import SwipeCard from '../components/SwipeCard'
+import Api from '../utils/Api'
 
 export default function HomeScreen () {
   const [cards, setCards] = useState([])
@@ -12,15 +12,11 @@ export default function HomeScreen () {
     refreshSuggestions()
   }, [])
 
-  const onSwiped = async (index, type, vote) => {
+  const onSwiped = async (index, vote) => {
     const programType = cards[index].partOfSeries === undefined ? 'movies' : 'series'
     try {
-      if (type === 'right') {
-        await Api.addVote(cards[index]._id, programType, vote)
-      } else {
-        await Api.addVote(cards[index]._id, programType, vote)
-        refreshSuggestions()
-      }
+      await Api.addVote(cards[index]._id, programType, vote)
+      refreshSuggestions()
     } catch (err) {
       console.log(err.message)
     }
@@ -42,8 +38,8 @@ export default function HomeScreen () {
         ? (
           <Swiper
             backgroundColor={styles.container.backgroundColor}
-            onSwipedLeft={(index) => onSwiped(index, 'left', -1)}
-            onSwipedRight={(index) => onSwiped(index, 'right', 1)}
+            onSwipedLeft={(index) => onSwiped(index, -1)}
+            onSwipedRight={(index) => onSwiped(index, 1)}
             cards={cards}
             cardVerticalMargin={80}
             renderCard={(card) => {
