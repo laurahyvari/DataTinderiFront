@@ -1,12 +1,11 @@
-
 import React, { useEffect, useState } from 'react'
 import {
   View,
   StyleSheet,
   ScrollView,
-  Image,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  ImageBackground
 } from 'react-native'
 import Api from '../utils/Api'
 import { Text, Card } from 'react-native-elements'
@@ -39,7 +38,7 @@ export default function ListScreen ({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView style={styles.scrollContainer}>
         <View style={styles.sliderContainer}>
           <Text style={styles.header}>Suositut</Text>
           <ScrollView horizontal={true}>
@@ -53,15 +52,16 @@ export default function ListScreen ({ navigation }) {
                   }
                   key={suosittu._id}>
                     <Card containerStyle={styles.cards}>
-                      <View key={suosittu._id}>
-                        {suosittu.image && <Image
+                      <View
+                        style={styles.popularCard} 
+                        key={suosittu._id}>
+                        {suosittu.image && <ImageBackground
                           style={styles.cardImage}
                           source={{
                             uri: `https://images.cdn.yle.fi/image/upload/w_${maxWidth},h_${maxHeight},c_limit/${suosittu.image.id}`
-                          }}
-                        />}
-                        <Text style={styles.title}>{suosittu.title.fi || 'Ohjelman nimi'}</Text>
-
+                          }}>
+                            <Text style={styles.title}>{suosittu.title.fi || 'Ohjelman nimi'}</Text>
+                          </ImageBackground>}
                       </View>
                     </Card>
                   </TouchableOpacity>
@@ -69,8 +69,9 @@ export default function ListScreen ({ navigation }) {
               })}
           </ScrollView>
           <Text style={styles.header}>Saatat pitää näistä</Text>
-          <ScrollView horizontal={true}>
-
+          <ScrollView 
+            style={styles.scrollContainer}
+            horizontal={true}>
             {loadingKayttajan
               ? null
               : kayttajaSuositukset.map((kayttajaSuositus) => {
@@ -80,22 +81,22 @@ export default function ListScreen ({ navigation }) {
                   }
                   key={kayttajaSuositus._id}>
                     <Card containerStyle={styles.cards}>
-                      <View key={kayttajaSuositus._id}>
-                        {kayttajaSuositus.image && <Image
+                      <View 
+                        style={styles.popularCard}
+                        key={kayttajaSuositus._id}>
+                        {kayttajaSuositus.image && <ImageBackground
                           style={styles.cardImage}
                           source={{
                             uri: `https://images.cdn.yle.fi/image/upload/w_${maxWidth},h_${maxHeight},c_limit/${kayttajaSuositus.image.id}`
-                          }}
-                        />}
-                        <Text style={styles.title}>{kayttajaSuositus.title.fi || 'Ohjelman nimi'}</Text>
-
+                          }}>
+                          <Text style={styles.title}>{kayttajaSuositus.title.fi || 'Ohjelman nimi'}</Text>
+                        </ImageBackground>}
                       </View>
                     </Card>
                   </TouchableOpacity>
                 )
               })}
           </ScrollView>
-
         </View>
       </ScrollView>
     </View>
@@ -105,58 +106,39 @@ export default function ListScreen ({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2176AE'
+    backgroundColor: '#2176AE',
+    padding: 5,
   },
-
   header: {
     fontSize: 24,
     color: 'white',
     fontWeight: 'bold',
     marginTop: 20
   },
-
   cards: {
-    borderWidth: 0,
+    margin:0,
+    padding: 0,
+    borderWidth: 1,
+    borderColor: '#000000a0',
     backgroundColor: '#2176AE'
   },
-
+  popularCard: {
+    height: maxWidth * 0.6,
+    width: maxWidth * 0.6,
+  },
   sliderContainer: {
-    marginTop: 50
+    marginTop: 10
   },
-  button: {
-    marginTop: 30,
-    marginBottom: 20,
-    paddingVertical: 5,
-    alignItems: 'center',
-    backgroundColor: '#FF6C00',
-    borderColor: '#FF6C00',
-    borderWidth: 1,
-    borderRadius: 5,
-    width: 200
-  },
-  buttonText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#fff'
-  },
-  text: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#fff',
-    marginTop: 50
-  },
-
   cardImage: {
-    width: 200,
-    height: 200,
-    backgroundColor: '#000'
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center"
   },
-
   title: {
-    fontSize: 14,
-    justifyContent: 'center',
-    color: 'white',
-    alignSelf: 'center'
-  }
-
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+    backgroundColor: "#000000a0"
+  },
 })

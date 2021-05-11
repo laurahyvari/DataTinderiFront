@@ -75,4 +75,20 @@ const getRecommendations = async () => {
   )
   return response.data
 }
-export default { getSuggestions, addVote, getLikes, getPopularPrograms, getRecommendations }
+
+const getSimilarPrograms = async (id) => {
+  try {
+    const token = await getToken()
+    const response = await axios.get(`api/recommendations/programId/${id}`, {
+      headers: {
+        Authorization: token
+      }
+    }
+    )
+    return response.data
+  } catch (err) {
+    console.log(err.message)
+  }
+}
+
+export default { getSuggestions, addVote, getLikes, getPopularPrograms, getRecommendations, getSimilarPrograms }

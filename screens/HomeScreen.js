@@ -3,11 +3,9 @@ import Swiper from 'react-native-deck-swiper'
 import { ActivityIndicator, Dimensions, StyleSheet, View } from 'react-native'
 import Api from '../utils/Api'
 import SwipeCard from '../components/SwipeCard'
-import MatchModal from '../components/MatchModal'
 
 export default function HomeScreen () {
   const [cards, setCards] = useState([])
-  const [modalVisible, setModalVisible] = useState(false)
   const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -17,9 +15,8 @@ export default function HomeScreen () {
   const onSwiped = async (index, type, vote) => {
     const programType = cards[index].partOfSeries === undefined ? 'movies' : 'series'
     try {
-      if (type === 'right' && cards[index].suggestionType === 'match') {
+      if (type === 'right') {
         await Api.addVote(cards[index]._id, programType, vote)
-        setModalVisible(!modalVisible)
       } else {
         await Api.addVote(cards[index]._id, programType, vote)
         refreshSuggestions()
@@ -41,14 +38,6 @@ export default function HomeScreen () {
 
   return (
     <View style={styles.container}>
-      <MatchModal
-        program={cards}
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        refreshSuggestions={refreshSuggestions}
-        imageID={ cards.length > 0 ? cards[0].image.id : null}
-      >
-      </MatchModal>
       {cards.length > 0 && !isLoading
         ? (
           <Swiper
