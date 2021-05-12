@@ -8,6 +8,7 @@ You can check https://github.com/bgf122/dataTinderBack on how to deploy your own
 This is a basic application that uses localStorage to identify user (using uuid) and demonstrates a backend serving  
 recommendations in a "Tinder"-kind of way.
 
+![HomeScreen](./components/images/HomeScreen.png "Home Screen")![ListScreen](./components/images/ListScreen.png "List Screen")![ProgramDetails](./components/images/ProgramDetails.png "Program Details")
   
 ## Getting Started
 
