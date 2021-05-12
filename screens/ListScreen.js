@@ -16,8 +16,10 @@ const maxHeight = Math.round(Dimensions.get('window').height * 0.6)
 export default function ListScreen ({ navigation }) {
   const [suositut, setSuositut] = useState([])
   const [kayttajaSuositukset, setKayttajaSuositukset] = useState([])
+  const [likes, setLikes] = useState([])
   const [loadingSuositut, setLoadingSuositut] = useState(true)
   const [loadingKayttajan, setLoadingKayttajan] = useState(true)
+  const [loadingLikes, setLoadingLikes] = useState(true)
   const isFocused = useIsFocused()
 
   useEffect(() => {
@@ -32,6 +34,13 @@ export default function ListScreen ({ navigation }) {
       setKayttajaSuositukset(haetutSuositukset)
       setLoadingKayttajan(false)
     }
+    const haeTykkaykset = async () => {
+      const haetutTykkaykset = await Api.getLikes()
+      setLikes(haetutTykkaykset)
+      setLoadingLikes(false)
+    }
+
+    haeTykkaykset()
     haeSuositut()
     haeSuositukset()
   }, [isFocused])
@@ -70,7 +79,6 @@ export default function ListScreen ({ navigation }) {
           </ScrollView>
           <Text style={styles.header}>Saatat pitää näistä</Text>
           <ScrollView
-            style={styles.scrollContainer}
             horizontal={true}>
             {loadingKayttajan
               ? null
@@ -97,6 +105,34 @@ export default function ListScreen ({ navigation }) {
                 )
               })}
           </ScrollView>
+          <Text style={styles.header}>Pidit näistä</Text>
+          <ScrollView horizontal={true}>
+            {loadingLikes
+              ? null
+              : likes.map((like) => {
+                return (
+                  <TouchableOpacity onPress={() =>
+                    navigation.navigate('Ohjelmatiedot', like)
+
+                  }
+                  key={like._id}>
+                    <Card containerStyle={styles.cards}>
+                      <View
+                        style={styles.popularCard}
+                        key={like._id}>
+                        {like.image && <ImageBackground
+                          style={styles.cardImage}
+                          source={{
+                            uri: `https://images.cdn.yle.fi/image/upload/w_${maxWidth},h_${maxHeight},c_limit/${like.image.id}`
+                          }}>
+                          <Text style={styles.title}>{like.title.fi || 'Ohjelman nimi'}</Text>
+                        </ImageBackground>}
+                      </View>
+                    </Card>
+                  </TouchableOpacity>
+                )
+              })}
+          </ScrollView>
         </View>
       </ScrollView>
     </View>
@@ -113,7 +149,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: 'white',
     fontWeight: 'bold',
-    marginTop: 20
+    marginTop: 5,
+    marginBottom: 5,
   },
   cards: {
     margin: 0,
@@ -125,9 +162,6 @@ const styles = StyleSheet.create({
   popularCard: {
     height: maxWidth * 0.6,
     width: maxWidth * 0.6
-  },
-  sliderContainer: {
-    marginTop: 10
   },
   cardImage: {
     flex: 1,
