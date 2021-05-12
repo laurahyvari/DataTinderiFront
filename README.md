@@ -11,11 +11,9 @@ recommendations in a "Tinder"-kind of way.
 Our original authentication method was Firebase, but that was scrapped for creating a no-fuss kind  
 scenario for the enduser.
 
-<p align="center">
-    <img src="./components/images/HomeScreen.png" width="30%">
-    <img src="./components/images/ListScreen.png" width="30%">
-    <img src="./components/images/ProgramDetails.png" width="30%">
-</p>
+HomeScreen | ListScreen | ProgramDetails
+--- | --- | ---
+![](./components/images/HomeScreen.png) | ![](./components/images/ListScreen.png) | ![](./components/images/ProgramDetails.png)
   
 ## Getting Started
 
