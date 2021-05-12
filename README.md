@@ -1,4 +1,4 @@
-# DataTinder backend
+# DataTinder application
 
 This repository is a React Native application for https://github.com/jussihayha/DataTinderit -project.  
 You need to be aware that this application is highly tailored for the backend we used.
@@ -8,7 +8,11 @@ You can check https://github.com/bgf122/dataTinderBack on how to deploy your own
 This is a basic application that uses localStorage to identify user (using uuid) and demonstrates a backend serving  
 recommendations in a "Tinder"-kind of way.
 
+Our original authentication method was Firebase, but that was scrapped for creating a no-fuss kind  
+scenario for the enduser.
+
 ![HomeScreen](./components/images/HomeScreen.png "Home Screen")![ListScreen](./components/images/ListScreen.png "List Screen")![ProgramDetails](./components/images/ProgramDetails.png "Program Details")
+
   
 ## Getting Started
 
@@ -22,7 +26,7 @@ You need atleast these packages to develop on your local machine
 
 * Expo
 * NPM
- 
+* Android emulator (recommended)
 
 
 
@@ -45,7 +49,7 @@ $ npm start
 The app is designed so that when the user opens it for the first time, it gives a small explanation  
 on how it works.  
   
-After the introscreen you are greeted with a Tinderlike swipable screen that you can use to give votes
+After the introscreen you are greeted with a Tinderlike swipeable screen that you can use to give votes
 on items that the backend server gives you.
 
 There is a second tab where the app fetches recommendations and popular items from the backend. 
