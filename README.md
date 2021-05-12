@@ -11,12 +11,11 @@ recommendations in a "Tinder"-kind of way.
 Our original authentication method was Firebase, but that was scrapped for creating a no-fuss kind  
 scenario for the enduser.
 
-<img src="./components/images/HomeScreen.png" width="100">
-<img src="./components/images/ListScreen.png" width="100">
-<img src="./components/images/ProgramDetails.png" width="100">
-
-![HomeScreen](./components/images/HomeScreen.png "Home Screen")![ListScreen](./components/images/ListScreen.png "List Screen")![ProgramDetails](./components/images/ProgramDetails.png "Program Details")
-
+<p align="center">
+    <img src="./components/images/HomeScreen.png" width="200">
+    <img src="./components/images/ListScreen.png" width="200">
+    <img src="./components/images/ProgramDetails.png" width="200">
+</p>
   
 ## Getting Started
 
