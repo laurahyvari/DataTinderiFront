@@ -61,13 +61,6 @@ and validate its success.
 
 
 
-### Live-example & backend
-
-Example server is running for a short period at https://neksu.vps.webdock.io  
-Should you open that link in a browser, I should advice you to use mobile views via Developer Console.
-
-If you intend to clone this repository you can use that site as a backend also (for a short period of time).
-
 ### Branches
 
 * Master branch is the working version and other branches might have content that are no longer viable.
